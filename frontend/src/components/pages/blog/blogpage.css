@@ -1,0 +1,180 @@
+.main-blog {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.son-paylasilan {
+  text-decoration: underline;
+  margin-bottom: 2rem;
+  font-family: monospace;
+}
+
+.main-blog__image {
+  width: 100%;
+}
+
+.main-blog__title {
+  text-align: left;
+  font-size: 2rem;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  color: #d8cfcf;
+  text-decoration: underline;
+  text-transform: capitalize;
+}
+
+.selected-post-wrapper {
+  margin: 1.5rem 0;
+  width: 100%;
+  padding: 1rem;
+  background-color: rgba(240, 248, 255, 0.6);
+}
+
+.selected-post-published {
+  display: flex;
+  align-items: center;
+  height: 2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgb(49, 44, 44);
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+
+.selected-post-title {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  text-align: center;
+  margin: 1.5rem auto 3rem;
+  text-decoration: underline;
+  text-decoration-style: double;
+  color: rgb(78, 3, 3);
+  font-weight: 600;
+}
+
+.selected-post-content {
+  width: 100%;
+  height: 100%;
+}
+
+.selected-post-content figure {
+  margin: 0;
+  max-width: 100%;
+  text-align: center;
+  overflow: auto;
+}
+
+.selected-post-content figure img {
+  max-width: 100%;
+}
+
+.selected-post-comments {
+  text-align: right;
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.comment-form-textarea:focus {
+  background-color: honeydew;
+}
+
+.post-comment {
+  position: relative;
+  padding: 1rem;
+  font-size: 1.3rem;
+  border: 3px solid black;
+  box-shadow: 2px 5px 7px rgba(20, 50, 50, 0.6);
+  margin-bottom: 1rem;
+}
+
+.post-main_image {
+  max-width: 100%;
+  margin: 2rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.post-main_image img{
+  max-width: 100%;
+  padding: 0 !important;
+}
+
+.myBg {
+  background-color: rgb(138, 233, 138);
+  color: blue;
+}
+
+.yourBg {
+  background-color: rgb(95, 95, 190);
+  color: rgb(255, 255, 255);
+}
+
+.comment-infos {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: rgb(58, 10, 92);
+}
+
+.delete-comment {
+  color: black;
+  cursor: pointer;
+}
+
+.delete-comment button span {
+  padding: 0 0.4rem;
+}
+
+.comment-content {
+  padding-top: 0.5rem;
+}
+
+.selected-post-content figure table {
+  border: 1px solid;
+  border-collapse: collapse;
+}
+
+.selected-post-content figure table thead tr th,
+.selected-post-content figure table tbody tr td {
+  border-left: 1px solid;
+  border-bottom: 1px solid;
+  padding: 0.5rem;
+}
+.selected-post-content figure table thead tr th:first-child,
+.selected-post-content figure table tbody tr td:first-child {
+  border-left: none;
+}
+
+.reply{
+  color: black;
+  border-bottom: 1px solid;
+  padding: 0.2rem;
+  box-shadow: 2px 3px 2px rgba(0, 0, 0, .4);
+  font-size: .9rem;
+}
+
+.reply .MuiButtonBase-root .MuiIconButton-label {
+  color: red;
+}
+
+.reply-myBg {
+  background-color: rgb(207, 184, 230);
+}
+.reply-yourBg {
+  background-color: rgb(195, 230, 184);
+}
+.comment-form div .ck-content {
+  color: black;
+}
+
+
+@media (max-witdh: 769px) {
+  .main-blog {
+    width: 100%;
+  }
+}

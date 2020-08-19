@@ -1,0 +1,60 @@
+#siirler {
+  color: rgb(240, 211, 238);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.siir-card {
+  text-align: center;
+  width: 450px;
+  border-radius: 1rem;
+  box-shadow: 2px 3px 3px rgba(255, 240, 200, 0.5);
+  margin-bottom: 2rem;
+  background: #434049; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #5c5764,
+    #4c465a
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #c5c5bc,
+    #d6ecdd
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.siir-card img {
+  max-width: 100%;
+  min-width: 50%;
+  border-radius: 1rem;
+  margin: 0;
+}
+
+.siir-card h3 {
+  color: rgb(16, 25, 66);
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+.siir-card p {
+  font-size: 1.5rem;
+  font-family: "Dancing Script";
+  color: black;
+}
+
+@media (max-width: 769px) {
+  .siir-card p {
+    font-size: 1.25rem;
+  }
+  #siirler {
+    margin-top: -20%;
+  }
+}
+
+@media (max-width: 1025px) {
+  .siir-card {
+    width: 100%;
+  }
+}

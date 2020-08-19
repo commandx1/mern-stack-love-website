@@ -1,0 +1,16 @@
+export const ADD_MEMORY = 'ADD_MEMORY'
+export const REMOVE_MEMORY = 'REMOVE_MEMORY'
+export const UPDATE_MEMORY = 'UPDATE_MEMORY'
+export const FETCH_MEMORIES = 'FETCH_MEMORIES'
+
+export const FETCH_ABOUT_ME = 'FETCH_ABOUT_ME'
+export const FETCH_ABOUT_HER = 'FETCH_ABOUT_HER'
+export const ADD_ABOUT_ME = 'ADD_ABOUT_ME'
+export const ADD_ABOUT_HER = 'ADD_ABOUT_HER'
+
+
+export const FETCH_POEMS = 'FETCH_POEMS'
+export const ADD_POEM = 'ADD_POEM'
+
+export const ADD_TELLTALE = 'ADD_TELLTALE'
+export const FETCH_TELLTALES = 'FETCH_TELLTALES'

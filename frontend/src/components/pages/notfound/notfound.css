@@ -1,0 +1,28 @@
+#not-found{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+#hata-mesaj p{
+    margin-bottom: -0.5rem;
+    font-size: 1.6rem;
+}
+
+#not-found svg {
+    font-size: 3rem;
+}
+
+#hata-mesaj p:last-child a{
+    text-decoration: none;
+    transition: 200ms;
+}
+#hata-mesaj p:last-child a:hover{
+    text-decoration: underline;
+    color:red;
+}

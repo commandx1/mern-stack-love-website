@@ -1,0 +1,72 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  --scrollbarBG: #cfd8dc;
+  --thumbBG: #90a4ae;
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+  padding: 0;
+  top:0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  /* overflow-x: hidden; */
+}
+
+body {
+  background: #ece9e6; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #ffffff,
+    #ece9e6
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #ffffff,
+    #ece9e6
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  /* font-family: 'Indie Flower', cursive;  Masalda kullanılacak */
+  font-family: 'Pangolin', cursive;
+  /* font-family: 'Patrick Hand', cursive;  blogda kullanılcak */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+* {
+  outline: none;
+  box-sizing: border-box;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbarBG);
+  border-radius: 3rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--thumbBG);
+  border-radius: 3rem;
+  border: 3px solid var(--scrollbarBG);
+}
+
+blockquote {
+  font-size: .9rem;
+  border-left: 4px solid rgb(175, 163, 163);
+  padding-left: .4rem;
+  margin-left: 0;
+  font-style: italic;
+}
+.push {height: 4em;}
+.MuiGrid-spacing-xs-4 {
+  margin:0 !important;
+  width: auto !important;
+}

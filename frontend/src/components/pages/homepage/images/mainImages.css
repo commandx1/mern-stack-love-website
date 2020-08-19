@@ -1,0 +1,122 @@
+.images-container {
+  display: flex;
+  margin: 10% 8% 5%;
+}
+.images-container .card img {
+  width: 70%;
+  border-radius: 45%;
+  box-shadow: 2px -4px 9px 8px rgba(83, 56, 6, 0.7);
+  margin-top: 30px;
+}
+
+.images-container .card {
+  border: 1px solid brown;
+  width: 37%;
+  box-sizing: border-box;
+  box-shadow: 4px 2px 13px 13px rgb(92, 41, 41);
+  background-color: rgb(187, 13, 13);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.card h3 {
+  text-decoration: underline;
+  margin: 0;
+  font-size: 1.5em;
+  color: rgb(86, 163, 199);
+  font-family: "Lobster", cursive;
+}
+
+.card p {
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  font-style: oblique;
+  border-top: 1px double rgba(106, 141, 194, 0.5);
+  padding-top: 4px;
+  color: rgb(192, 182, 182);
+  text-align: center;
+}
+
+#heart {
+  position: relative;
+  width: 100px;
+  height: 90px;
+  margin: 300px auto;
+  animation: heartbeat 4s infinite;
+}
+#heart:before,
+#heart:after {
+  position: absolute;
+  content: "";
+  left: 50px;
+  top: 0;
+  width: 50px;
+  height: 80px;
+  background: rgb(180, 5, 5);
+  -moz-border-radius: 50px 50px 0 0;
+  border-radius: 50px 50px 0 0;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transform-origin: 0 100%;
+  -moz-transform-origin: 0 100%;
+  -ms-transform-origin: 0 100%;
+  -o-transform-origin: 0 100%;
+  transform-origin: 0 100%;
+}
+#heart:after {
+  left: 0;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-transform-origin: 100% 100%;
+  -moz-transform-origin: 100% 100%;
+  -ms-transform-origin: 100% 100%;
+  -o-transform-origin: 100% 100%;
+  transform-origin: 100% 100%;
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(0.75);
+  }
+  20% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.75);
+  }
+  60% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(0.75);
+  }
+  100% {
+    transform: scale(0.75);
+  }
+}
+
+@media (max-width: 769px) {
+  .images-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  #heart {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .images-container .card {
+    width: 100%;
+  }
+  .images-container .card img {
+    width: 80%;
+  }
+}

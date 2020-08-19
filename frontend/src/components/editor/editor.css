@@ -1,0 +1,44 @@
+.ck-rounded-corners .ck.ck-editor__editable:not(.ck-editor__nested-editable),
+.ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-rounded-corners {
+  height:auto;
+  min-height: 15rem;
+}
+
+
+.ck-editor__editable_inline {
+  min-height: 90%;
+  letter-spacing: 0.07rem;
+  font-size: 0.9rem;
+  width: 100%;
+  background: url("https://marefidelis.com/wp-content/uploads/paper-background.jpg");
+}
+
+@media screen and (min-device-width: 500px) and (max-device-width: 1030px) {
+  /* .ck-editor__editable_inline  {
+        height: 100%;
+    } */
+  .ck-toolbar__items {
+    font-size: 0.7rem !important;
+  }
+}
+
+@media (max-width: 499px) {
+  /* .ck-editor__editable_inline  {
+        height: 15rem;
+    } */
+  .ck-toolbar__items {
+    font-size: 0.7rem !important;
+  }
+}
+@media (max-height: 350px) {
+  .ck-editor__editable_inline {
+    font-size: 0.6rem;
+  }
+  .ck-toolbar__items {
+    font-size: 0.6rem !important;
+  }
+
+  .ck-toolbar_grouping {
+    height: 1rem !important;
+  }
+}

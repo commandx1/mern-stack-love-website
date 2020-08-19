@@ -1,0 +1,28 @@
+.scroll-top-div {
+    background-color: black;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0.3rem;
+  }
+  
+  .scroll-top-div svg {
+    font-size: 2rem;
+  }
+  
+  .scroll-top-div:hover {
+    background-color: rgb(85, 19, 19);
+    transition: 300ms;
+  }
+  
+  
+  @media (max-width: 500px) {
+      .scroll-top-div svg{
+          font-size: 1rem;
+      }
+
+      .fWohKN {
+        bottom:25px !important;
+        z-index: 1000;
+    }
+  }

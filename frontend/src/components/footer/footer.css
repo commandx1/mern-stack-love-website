@@ -1,0 +1,33 @@
+.countup {
+    font-size: .9em;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: 600;
+    color:wheat;
+    margin: 15px auto;
+}
+
+/* footer{
+    border-top: 1px solid rgba(187, 164, 164, 0.5);
+    text-align: center;
+    width: 100%;
+    height: 50px;
+    background-color: rgba(43, 26, 4, .6);
+} */
+.fWohKN {
+    bottom:25px !important;
+    z-index: 1000;
+}
+footer {
+    z-index: 2;
+    pointer-events: none;
+    border-top: 1px solid rgba(187, 164, 164, 0.5);
+    text-align: center;
+    width: 100%;
+    height: 50px;
+    background-color:#e43647;
+    /* background-color: rgba(43, 26, 4, .6); */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
