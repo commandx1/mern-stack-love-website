@@ -5,7 +5,7 @@ import Container from "../../Container/container";
 import PageTitle from "../../Container/PageTitle";
 import useHttpClient from "../../../hooks/useHttpClient";
 import ReactHtmlParser from "react-html-parser";
-import { REACT_APP_BACKEND_URL, REACT_APP_ASSET_URL} from '../../../env_variables'
+
 
 const Siirler = () => {
   const general = useContext(generalContext);
@@ -16,7 +16,7 @@ const Siirler = () => {
     const fetchPoems = async () => {
       try {
         const responseData = await sendRequest(
-          `${REACT_APP_BACKEND_URL}/poems`
+          `${process.env.REACT_APP_BACKEND_URL}/poems`
         );
         general.functions.poem.fetchPoems(responseData.poems);
       } catch (err) {}
@@ -33,7 +33,7 @@ const Siirler = () => {
             <div key={siir._id} className="siir-card">
               {siir.imageUrl ? (
                 <img
-                  src={`${REACT_APP_ASSET_URL}/${siir.imageUrl}`}
+                  src={`${process.env.REACT_APP_ASSET_URL}/${siir.imageUrl}`}
                   alt={siir.title}
                 />
               ) : null}

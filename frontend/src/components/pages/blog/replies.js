@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect, Fragment } from "react";
 import { authContext } from "../../../WRAPPERS/Context/myContext";
-import {REACT_APP_ASSET_URL, REACT_APP_BACKEND_URL} from "../../../env_variables";
 import Snackbar from "../../snackbar/Snackbar";
 import Parser from "react-html-parser";
 import IconButton from "@material-ui/core/IconButton/IconButton";
@@ -28,7 +27,7 @@ const Replies = (props) => {
     const fetchComments = async () => {
       try {
         const responseData = await sendRequest(
-          `${REACT_APP_BACKEND_URL}/blog/replies/comment/${props.comment._id}`
+          `${process.env.REACT_APP_BACKEND_URL}/blog/replies/comment/${props.comment._id}`
         );
         setreplies(responseData.replies);
       } catch (err) {}
@@ -43,7 +42,7 @@ const Replies = (props) => {
   const sendReply = async () => {
     try {
       const res = await sendRequest(
-        "${REACT_APP_BACKEND_URL}/blog/replies",
+        `${process.env.REACT_APP_BACKEND_URL}/blog/replies`,
         "POST",
         JSON.stringify({
           content: reply,
@@ -55,16 +54,16 @@ const Replies = (props) => {
       );
       setreply("");
       setshowReplyForm(false);
+      console.log(res);
       addReply(res.reply);
     } catch (error) {}
   };
 
   const deleteHandler = async (rid) => {
-    console.log(rid)
     setopenModal(false);
     try {
       const res = await sendRequest(
-        `${REACT_APP_BACKEND_URL}/blog/replies/${rid}`,
+        `${process.env.REACT_APP_BACKEND_URL}/blog/replies/${rid}`,
         "DELETE"
       );
       setshowSnackbar(true);
@@ -102,20 +101,29 @@ const Replies = (props) => {
               open={openModal}
               handleClose={() => setopenModal(false)}
             />
-            <div className="reply" >
-              {auth.name === reply.username ? (
-                <IconButton
-                  onClick={() => setopenModal(true)}
-                  color="primary"
-                  aria-label="upload picture"
-                  component="span"
-                >
-                  <DeleteIcon />
-                </IconButton>
-              ) : null}
-
-              {reply.username + ` (${reply.date}) ` + ": "}
-              <div style={{ marginLeft: ".5rem" }}>{Parser(reply.content)}</div>
+            <div className="reply">
+              <div className="reply-header">
+                <div style={{display:"flex"}}>
+                  <div className="reply-header-name">
+                    {reply.username.split(" ")[0].charAt(0) +
+                      reply.username.split(" ")[1].charAt(0)}
+                  </div>
+                  {`${reply.date}`}
+                </div>
+                {auth.name === reply.username ? (
+                  <IconButton
+                    onClick={() => setopenModal(true)}
+                    color="primary"
+                    aria-label="upload picture"
+                    component="span"
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                ) : null}
+              </div>
+              <div style={{ borderTop: "1px dashed" }}>
+                {Parser(reply.content)}
+              </div>
             </div>
           </div>
         ))}

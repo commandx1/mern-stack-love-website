@@ -6,8 +6,7 @@ import useHttpClient from "../../../../../hooks/useHttpClient";
 import { useForm } from "../../../../../hooks/useForm";
 import Spinner from "../../../../spinner/Spinner";
 import ImageUpload from "../../../../formelements/imageUpload/imageUpload";
-import {useHistory} from "react-router-dom"
-import { REACT_APP_BACKEND_URL } from "../../../../../env_variables";
+import { useHistory } from "react-router-dom";
 
 const Content = ({
   element,
@@ -17,12 +16,14 @@ const Content = ({
   setmessage,
   setShowSnackbar,
   deletingThing,
-  updateState, 
+  updateState,
   route,
   setEditingId,
-  goTo
+  goTo,
+  removeImageFromElement,
+  addImageToMemory
 }) => {
-  const history = useHistory()
+  const history = useHistory();
   const classes = useStyles();
 
   const [formState, inputHandler, setFormData] = useForm(
@@ -36,41 +37,74 @@ const Content = ({
   );
 
   const { isLoading, error, open, sendRequest, clearError } = useHttpClient();
-const [deneme, setdeneme] = useState(false)
+  const [deneme, setdeneme] = useState(false);
   const submit = async (element) => {
     try {
       const formData = new FormData();
       formData.append("title", element.title);
       formData.append("content", element.content);
-      formData.append("image", formState.inputs.image.value);
       const res = await sendRequest(
-        `${REACT_APP_BACKEND_URL}/${deletingThing}/${element._id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/${deletingThing}/${element._id}`,
         "PATCH",
         formData
       );
       setmessage({
-        type:res.message.type,
-        content: res.message.content
-      })
+        type: res.message.type,
+        content: res.message.content,
+      });
       setShowSnackbar(true);
-      res.message.type === "success" && updateState(res)
-      res.message.type === "success" && goTo ? history.push(`${goTo}/${res.post._id}/Başlık/${res.post.title}`)
-      : history.push(route)
-      setEditingId(null)
+      res.message.type === "success" && updateState(res);
+      res.message.type === "success" && goTo
+        ? history.push(`${goTo}/${res.post._id}/Başlık/${res.post.title}`)
+        : history.push(route);
+      setEditingId(null);
+    } catch (err) {}
+  };
+  const imageRemoveHandler = async() => {
+    try {
+      const res = await sendRequest(
+        `${process.env.REACT_APP_BACKEND_URL}/${deletingThing}/image/${element._id}`,
+        "DELETE"
+      );
+      removeImageFromElement(element._id);
+      setShowSnackbar(true);
+      setmessage({
+        type: res.message.type,
+        content: res.message.content,
+      });
+      setEditingId(null);
+      history.goBack();
+    } catch (err) {}
+  };
+
+  const imageInsertHandler = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("image", formState.inputs.image.value);
+      const res = await sendRequest(
+        `${process.env.REACT_APP_BACKEND_URL}/${deletingThing}/image/${element._id}`,
+        "PATCH",
+        formData
+      );
+      addImageToMemory(res);
+      setShowSnackbar(true);
+      setmessage({
+        type: res.message.type,
+        content: res.message.content,
+      });
+      setEditingId(null);
+      history.goBack();
     } catch (err) {}
   };
 
   useEffect(() => {
-    element._id === editingId ? setdeneme(true) : setdeneme(false)
-  }, [])
+    element._id === editingId ? setdeneme(true) : setdeneme(false);
+  }, []);
+
   return (
     <Fragment>
       {isLoading && <Spinner />}
-      <Collapse
-        className={classes.collapse}
-        in={deneme}
-        collapsedHeight={0}
-      >
+      <Collapse className={classes.collapse} in={deneme} collapsedHeight={0}>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -83,18 +117,38 @@ const [deneme, setdeneme] = useState(false)
             onChange={(e, editor) => {
               const data = editor.getData();
               const updatedData = fetchedThings.map((poem) =>
-              element._id === poem._id ? { ...poem, content: data } : poem
+                element._id === poem._id ? { ...poem, content: data } : poem
               );
               setfetchedThings(updatedData);
             }}
           />
-          <ImageUpload
-            updateUrl={element.imageUrl}
-            id="image"
-            onInput={inputHandler}
-            center
-            errorText="Lütfen Geçerli Bir Resim Yükleyiniz"
-          />
+          <div className={classes.imageDiv}>
+            {element.imageUrl ? (
+              <Button
+                onClick={imageRemoveHandler}
+                color="secondary"
+                variant="contained"
+              >
+                Fotoğrafı Kaldır
+              </Button>
+            ) : (
+              <Button
+                onClick={imageInsertHandler}
+                color="primary"
+                variant="contained"
+                disabled={!formState.isValid}
+              >
+                Fotoğrafı ekle
+              </Button>
+            )}
+            <ImageUpload
+              updateUrl={element.imageUrl}
+              id="image"
+              onInput={inputHandler}
+              center
+              errorText="Lütfen Geçerli Bir Resim Yükleyiniz"
+            />
+          </div>
           <Button
             variant="contained"
             size="medium"

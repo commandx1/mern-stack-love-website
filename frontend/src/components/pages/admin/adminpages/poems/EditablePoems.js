@@ -2,7 +2,6 @@ import React, { useEffect, useState, Fragment } from "react";
 import EditablePoems from "../components/editables";
 import useHttpClient from "../../../../../hooks/useHttpClient";
 import Spinner from "../../../../spinner/Spinner";
-import { REACT_APP_BACKEND_URL, REACT_APP_ASSET_URL} from '../../../../../env_variables'
 
 const EditPoems = () => {
   const { isLoading, error, open, sendRequest, clearError } = useHttpClient();
@@ -17,7 +16,7 @@ const EditPoems = () => {
     const fetchPoems = async () => {
       try {
         const responseData = await sendRequest(
-          `${REACT_APP_BACKEND_URL}/poems`
+          `${process.env.REACT_APP_BACKEND_URL}/poems`
         );
         setfetchedPoems(responseData.poems);
       } catch (err) {}
@@ -38,13 +37,29 @@ const EditPoems = () => {
           }
         : f
     );
-    setfetchedPoems(updated)
+    setfetchedPoems(updated);
+  };
+
+  const removeImageFromElement = (poemId) => {
+    const updatedPoems = fetchedPoems.map((p) =>
+      p._id === poemId ? { ...p, imageUrl: "" } : p
+    );
+    setfetchedPoems(updatedPoems);
+  };
+
+  const addImageToMemory = (res) => {
+    const updatedPoems = fetchedPoems.map((p) =>
+      p._id === res.poem._id ? { ...p, imageUrl: res.poem.imageUrl } : p
+    );
+    setfetchedPoems(updatedPoems);
   };
 
   return (
     <Fragment>
       {isLoading && <Spinner />}
       <EditablePoems
+        addImageToMemory={addImageToMemory}
+        removeImageFromElement={removeImageFromElement}
         updateState={updateState}
         onClose={onClose}
         showSnackbar={showSnackbar}

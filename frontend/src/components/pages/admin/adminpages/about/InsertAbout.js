@@ -11,7 +11,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery/useMediaQuery";
 import useHttpClient from "../../../../../hooks/useHttpClient";
 import ErrorModal from "../../../../error/ErrorModal";
 import Spinner from "../../../../spinner/Spinner";
-import {REACT_APP_BACKEND_URL} from '../../../../../env_variables';
 
 const InsertAbout = () => {
   const { isLoading, error, open, sendRequest, clearError } = useHttpClient();
@@ -34,7 +33,7 @@ const InsertAbout = () => {
     const fetchPoems = async () => {
       try {
         const responseData = await sendRequest(
-          `${REACT_APP_BACKEND_URL}/about/${name}`
+          `${process.env.REACT_APP_BACKEND_URL}/about/${name}`
         );
 
         setcount(responseData.abouts.length);
@@ -52,7 +51,7 @@ const InsertAbout = () => {
     else {
       try {
         const responseData = await sendRequest(
-          `${REACT_APP_BACKEND_URL}/about/${name}`,
+          `${process.env.REACT_APP_BACKEND_URL}/about/${name}`,
           "POST",
           JSON.stringify({
             title: about.title,

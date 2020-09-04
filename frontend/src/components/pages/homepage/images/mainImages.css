@@ -1,4 +1,8 @@
 .images-container {
+  display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox; /* TWEENER - IE 10 */
+  display: -webkit-flex; /* NEW - Chrome */
   display: flex;
   margin: 10% 8% 5%;
 }
@@ -15,6 +19,10 @@
   box-sizing: border-box;
   box-shadow: 4px 2px 13px 13px rgb(92, 41, 41);
   background-color: rgb(187, 13, 13);
+  display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox; /* TWEENER - IE 10 */
+  display: -webkit-flex; /* NEW - Chrome */
   display: flex;
   flex-direction: column;
   align-items: center;

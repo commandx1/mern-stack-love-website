@@ -9,6 +9,17 @@ export const useStyles = makeStyles((theme) => ({
     collapse: {
       width: "100%",
     },
+    imageDiv: {
+      border: "1px solid",
+      width: "90%",
+      margin: ".5rem auto 1rem",
+      paddingTop: "1rem",
+      background: "cadetblue",
+      display:"flex",
+      flexDirection:"column",
+      alignItems:"center",
+      justifyContent:"center"
+    },
     titleWrapper: {
       width: "100%",
       backgroundColor: "rgba(100, 120, 200, .9)",

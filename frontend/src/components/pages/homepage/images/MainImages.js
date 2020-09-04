@@ -20,10 +20,7 @@ const MainImages = () => {
       <div className="card" data-aos="fade-right" data-aos-duration="500">
         <h3>Ceren</h3>
         <img src={ceren} alt="ceren" />
-        <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sed
-          provident obcaecati debitis neque dolorum perspiciatis.
-        </p>
+        <p>29 Kasım'da dünyaya güneş gibi doğan, sarı bir yavru ceylan...</p>
       </div>
     </div>
   );

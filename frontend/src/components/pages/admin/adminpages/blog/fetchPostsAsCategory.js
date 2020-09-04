@@ -3,7 +3,6 @@ import EditablePost from "../components/editables";
 import useHttpClient from "../../../../../hooks/useHttpClient";
 import Spinner from "../../../../spinner/Spinner";
 import { authContext } from "../../../../../WRAPPERS/Context/myContext";
-import { REACT_APP_BACKEND_URL, REACT_APP_ASSET_URL} from '../../../../../env_variables'
 
 const FetchPostsAsCategory = (props) => {
   const [showSnackbar, setShowSnackbar] = useState(false);
@@ -12,7 +11,7 @@ const FetchPostsAsCategory = (props) => {
     type: "",
     content: "",
   });
-  const [state, setstate] = useState([]);
+  const [state, setState] = useState([]);
 
   const { isLoading, error, open, sendRequest, clearError } = useHttpClient();
 
@@ -20,9 +19,9 @@ const FetchPostsAsCategory = (props) => {
     const fetchPosts = async () => {
       try {
         const responseData = await sendRequest(
-          `${REACT_APP_BACKEND_URL}/blog/category/${props.categoryId}/user/${auth.userId}/`
+          `${process.env.REACT_APP_BACKEND_URL}/blog/category/${props.categoryId}/user/${auth.userId}/`
         );
-        setstate(responseData.posts);
+        setState(responseData.posts);
       } catch (err) {}
     };
     fetchPosts();
@@ -41,15 +40,31 @@ const FetchPostsAsCategory = (props) => {
           }
         : el
     );
-    setstate(updatedState)
-    state !== updatedState && console.log("eşit degil")
+    setState(updatedState);
+    state !== updatedState && console.log("eşit degil");
+  };
+
+  const removeImageFromElement = (postId) => {
+    const updatedState = state.map((p) =>
+      p._id === postId ? { ...p, imageUrl: "" } : p
+    );
+    setState(updatedState);
+  };
+
+  const addImageToMemory = (res) => {
+    const updatedState = state.map((p) =>
+      p._id === res.post._id ? { ...p, imageUrl: res.post.imageUrl } : p
+    );
+    setState(updatedState);
   };
 
   return (
     <div>
       {isLoading && <Spinner />}
       <EditablePost
-      goTo="/Blog/postId"
+        addImageToMemory={addImageToMemory}
+        removeImageFromElement={removeImageFromElement}
+        goTo="/Blog/postId"
         updateState={updateState}
         onClose={onClose}
         showSnackbar={showSnackbar}
@@ -58,7 +73,7 @@ const FetchPostsAsCategory = (props) => {
         messageType={message.type}
         setmessage={setmessage}
         fetchedThings={state}
-        setfetchedThings={setstate}
+        setfetchedThings={setState}
         deletingThing="blog"
         errorText={`${props.title} kategorisine ait hiç yazınız yok 😢`}
       />

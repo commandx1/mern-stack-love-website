@@ -2,10 +2,17 @@ const fs = require("fs");
 
 const { validationResult } = require("express-validator");
 const mongoose = require("mongoose");
+const AWS = require("aws-sdk");
+const { v4: uuidv4 } = require("uuid");
 
 const HttpError = require("../models/http-error");
 const Memory = require("../models/memories");
 const User = require("../models/user");
+
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ID,
+  secretAccessKey: process.env.AWS_SECRET,
+});
 
 const getMemories = async (req, res, next) => {
   let memories;
@@ -69,43 +76,6 @@ const updateMemory = async (req, res, next) => {
     return next(error);
   }
 
-  if (req.file) {
-    if (
-      memory.title === title &&
-      memory.content === content &&
-      memory.imageUrl === req.file.path
-    ) {
-      res.status(200).json({
-        memory: memory.toObject({ getters: true }),
-        message: {
-          type: "warning",
-          content: "Değişiklik yapmadınız 🤔",
-        },
-      });
-    } else {
-      memory.title = title;
-      memory.content = content;
-      memory.update = myDate;
-      memory.orderingDate = date;
-      memory.imageUrl = req.file.path;
-      try {
-        await memory.save();
-      } catch (err) {
-        const error = new HttpError(
-          "Bir şeyler ters gitti, değişiklik yapılamadı. 😢",
-          500
-        );
-        return next(error);
-      }
-      res.status(200).json({
-        message: {
-          type: "success",
-          content: "Değişiklikler başarıyla kaydedildi 😊",
-        },
-        memory: memory.toObject({ getters: true }),
-      });
-    }
-  } else {
     if (memory.title === title && memory.content === content) {
       res.status(200).json({
         memory: memory.toObject({ getters: true }),
@@ -137,15 +107,133 @@ const updateMemory = async (req, res, next) => {
         memory: memory.toObject({ getters: true }),
       });
     }
-  }
 };
+
+const addImage = async (req, res, next) => {
+  const memoryId = req.params.mid;
+
+  let memory;
+  try {
+    memory = await Memory.findById(memoryId)
+  } catch (err) {
+    const error = new HttpError(
+      "Bir şeyler ters gitti, fotoğraf eklenemiyor.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!memory) {
+    const error = new HttpError("Böyle bir anı bulunamadı", 404);
+    return next(error);
+  }
+  let myFile = req.file.originalname.split(".");
+  const fileType = myFile[myFile.length - 1];
+
+  let veri;
+
+  const params = {
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: `${uuidv4()}.${fileType}`,
+    Body: req.file.buffer,
+  };
+
+  s3.upload(params, async (error, data) => {
+    if (error) {
+      res.status(500).send(error);
+    }
+    veri = data.Key;
+
+    memory.imageUrl = veri
+
+    try {
+      await memory.save()
+    } catch (error) {
+      const err = new HttpError(
+        "Bir şeyler ters gitti, fotoğraf eklenemiyor.",
+        500
+      );
+      return next(err);
+    }
+
+    res.status(201).json({
+      message: {
+        type: "success",
+        content: "Fotoğraf eklendi 😊",
+      },
+      memory: memory})
+  })
+
+}
+
+
+
+
+
+const deleteImage = async (req, res, next) => {
+  const memoryId = req.params.mid;
+
+  let memory;
+  try {
+    memory = await Memory.findById(memoryId).populate("kullanici");
+  } catch (err) {
+    const error = new HttpError(
+      "Bir şeyler ters gitti, fotoğraf kaldırılamıyor.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!memory) {
+    const error = new HttpError("Böyle bir anı bulunamadı", 404);
+    return next(error);
+  }
+
+    const imagePath = memory.imageUrl;
+    
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: imagePath,
+    };
+
+    s3.deleteObject(params, async (error, data) => {
+      if (error) {
+        const err = new HttpError(
+          "Bir şeyler ters gitti, fotoğraf silinemiyor.",
+          500
+        );
+        return next(err);
+      }
+
+      memory.imageUrl = ""
+
+      try {
+        await memory.save()
+      } catch (error) {
+        const err = new HttpError(
+          "Bir şeyler ters gitti, fotoğraf silinemiyor.",
+          500
+        );
+        return next(err);
+      }
+      
+      res.status(200).json({
+        message: {
+          type: "info",
+          content: "Fotoğraf başarıyla silindi.",
+        },
+      });
+    });
+}
+
+
 
 const deleteMemory = async (req, res, next) => {
   const memoryId = req.params.mid;
 
   let memory;
   try {
-    memory = await Memory.findById(memoryId).populate("kullanici");
+    memory = await Memory.findById(memoryId).populate("kullanici")
   } catch (err) {
     const error = new HttpError(
       "Bir şeyler ters gitti, anı silinemiyorrr.",
@@ -171,14 +259,29 @@ const deleteMemory = async (req, res, next) => {
     return next(error);
   }
 
-  if (memory.imageUrl) {
+  if (memory.imageUrl !== "") {
     const imagePath = memory.imageUrl;
-    fs.unlink(imagePath, (err) => {
-      const error = new HttpError(
-        "Bir şeyler ters gitti, anı silinemiyor.",
-        500
-      );
-      return next(error);
+    
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: imagePath,
+    };
+
+    s3.deleteObject(params, (error, data) => {
+      if (error) {
+        const err = new HttpError(
+          "Bir şeyler ters gitti, anı silinemiyor.",
+          500
+        );
+        return next(err);
+      }
+      
+      res.status(200).json({
+        message: {
+          type: "info",
+          content: "Anı başarıyla silindi.",
+        },
+      });
     });
   }
 
@@ -189,6 +292,8 @@ const deleteMemory = async (req, res, next) => {
     },
   });
 };
+
+
 
 const createMemory = async (req, res, next) => {
   const errors = validationResult(req);
@@ -214,27 +319,6 @@ const createMemory = async (req, res, next) => {
 
   const { title, content, kullanici, username } = req.body;
 
-  const createdMemory = req.file
-    ? new Memory({
-        title,
-        content,
-        kullanici,
-        username,
-        imageUrl: req.file.path,
-        date: myDate,
-        update: myDate,
-        orderingDate: date,
-      })
-    : new Memory({
-        title,
-        content,
-        kullanici,
-        username,
-        date: myDate,
-        update: myDate,
-        orderingDate: date,
-      });
-
   let user;
   try {
     user = await User.findById(kullanici);
@@ -251,21 +335,80 @@ const createMemory = async (req, res, next) => {
     return next(error);
   }
 
-  try {
-    const sess = await mongoose.startSession();
-    sess.startTransaction();
-    await createdMemory.save({ session: sess });
-    user.memories.push(createdMemory);
-    await user.save({ session: sess });
-    await sess.commitTransaction();
-  } catch (err) {
-    const error = new HttpError(
-      "Anı oluştururkennn hata meydana geldi, lütfen tekrar deneyiniz.",
-      500
-    );
-    return next(error);
+  let createdMemory;
+
+  if (req.file) {
+    let myFile = req.file.originalname.split(".");
+    const fileType = myFile[myFile.length - 1];
+
+    let veri;
+
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: `${uuidv4()}.${fileType}`,
+      Body: req.file.buffer,
+    };
+
+    s3.upload(params, async (error, data) => {
+      if (error) {
+        res.status(500).send(error);
+      }
+      veri = data.Key;
+
+      createdMemory = new Memory({
+        title,
+        content,
+        kullanici,
+        username,
+        imageUrl: veri,
+        date: myDate,
+        update: myDate,
+        orderingDate: date,
+      });
+
+      try {
+        const sess = await mongoose.startSession();
+        sess.startTransaction();
+        await createdMemory.save({ session: sess });
+        user.memories.push(createdMemory);
+        await user.save({ session: sess });
+        await sess.commitTransaction();
+      } catch (err) {
+        const error = new HttpError(
+          "Anı oluştururkennn hata meydana geldi, lütfen tekrar deneyiniz.",
+          500
+        );
+        return next(error);
+      }
+      res.status(201).json({ memory: createdMemory });
+    });
+  } else {
+    createdMemory = new Memory({
+      title,
+      content,
+      kullanici,
+      username,
+      date: myDate,
+      update: myDate,
+      orderingDate: date,
+    });
+
+    try {
+      const sess = await mongoose.startSession();
+      sess.startTransaction();
+      await createdMemory.save({ session: sess });
+      user.memories.push(createdMemory);
+      await user.save({ session: sess });
+      await sess.commitTransaction();
+    } catch (err) {
+      const error = new HttpError(
+        "Anı oluştururkennn hata meydana geldi, lütfen tekrar deneyiniz.",
+        500
+      );
+      return next(error);
+    }
+    res.status(201).json({ memory: createdMemory });
   }
-  res.status(201).json({ memory: createdMemory });
 };
 
 exports.getMemories = getMemories;
@@ -273,3 +416,5 @@ exports.getFirstThreeMemories = getFirstThreeMemories;
 exports.updateMemory = updateMemory;
 exports.deleteMemory = deleteMemory;
 exports.createMemory = createMemory;
+exports.deleteImage = deleteImage;
+exports.addImage = addImage;

@@ -31,6 +31,14 @@ router.patch(
   blogController.updatePost
 );
 
+router.patch(
+  "/image/:pid",
+  fileUpload.single('image'),
+  blogController.addImage
+);
+
 router.delete("/:pid", blogController.deletePost);
+
+router.delete("/image/:pid", blogController.deleteImage);
 
 module.exports = router;

@@ -14,7 +14,9 @@ import {
   ADD_TELLTALE,
   FETCH_MEMORIES,
   FETCH_POEMS,
-  FETCH_TELLTALES
+  FETCH_TELLTALES,
+  REMOVE_IMAGE_FROM_MEMORY,
+  ADD_IMAGE_TO_MEMORY
 } from "./types";
 import video from "../assets/My Movie.mp4";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -51,6 +53,18 @@ const PageContent = (props) => {
       updateMemory: (memory) => {
         dispatch({
           type: UPDATE_MEMORY,
+          payload: memory,
+        });
+      },
+      removeImageFromMemory: (memoryID) => {
+        dispatch({
+          type: REMOVE_IMAGE_FROM_MEMORY,
+          payload: memoryID,
+        });
+      },
+      addImageToMemory: (memory) => {
+        dispatch({
+          type: ADD_IMAGE_TO_MEMORY,
           payload: memory,
         });
       },
@@ -113,7 +127,7 @@ const PageContent = (props) => {
 
   return (
     <generalContext.Provider value={{ globalState: globalState, functions, isMuted, muteHandler, soundHandler }}>
-      <video
+      {/* <video
         style={{
           zIndex: -1,
           minWidth: "100vw",
@@ -125,7 +139,7 @@ const PageContent = (props) => {
         loop
         autoPlay
         muted = {isMuted}
-      />
+      /> */}
       {props.children}
     </generalContext.Provider>
   );

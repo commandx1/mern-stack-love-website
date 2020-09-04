@@ -5,7 +5,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import useHttpClient from "../../../hooks/useHttpClient";
 import { NavLink } from "react-router-dom";
 import Backdrop from "../../backdrop/backdrop";
-import {REACT_APP_BACKEND_URL, REACT_APP_ASSET_URL} from "../../../env_variables"
 
 const GallerySummary = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -110,7 +109,7 @@ const GallerySummary = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const res = await sendRequest(REACT_APP_BACKEND_URL + "/upload");
+        const res = await sendRequest(process.env.REACT_APP_BACKEND_URL + "/upload");
         setImages(res.images);
       } catch (error) {}
     };
@@ -145,10 +144,10 @@ const GallerySummary = () => {
                 <img
                   onClick={() => {
                     setopenImage(true);
-                    setimgSrc(`${REACT_APP_ASSET_URL}/${image.imageUrl}`);
+                    setimgSrc(`${process.env.REACT_APP_ASSET_URL}/${image.imageUrl}`);
                   }}
                   className={classes.image}
-                  src={`${REACT_APP_ASSET_URL}/${image.imageUrl}`}
+                  src={`${process.env.REACT_APP_ASSET_URL}/${image.imageUrl}`}
                   alt="x"
                 />
               </div>

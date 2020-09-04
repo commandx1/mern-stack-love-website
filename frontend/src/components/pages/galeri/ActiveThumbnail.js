@@ -5,7 +5,6 @@ import useHttpClient from "../../../hooks/useHttpClient";
 import DeleteModal from "../../deleteModal/deleteModal";
 import Spinner from "../../spinner/Spinner";
 import Snackbar from "../../snackbar/Snackbar";
-import { REACT_APP_BACKEND_URL, REACT_APP_ASSET_URL} from '../../../env_variables'
 
 const ActiveThumbnail = (props) => {
   const { isLoading, open, error, sendRequest, clearError } = useHttpClient();
@@ -29,7 +28,7 @@ const ActiveThumbnail = (props) => {
     handleClose();
     try {
       const res = await sendRequest(
-        `${REACT_APP_BACKEND_URL}/upload/${id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/upload/${id}`,
         "DELETE"
       );
       props.deleteImage(id);
@@ -59,7 +58,7 @@ const ActiveThumbnail = (props) => {
       />
       <div className="active-thumbail">
         <DeleteIcon color="secondary" onClick={() => handleOpen()} />
-        <img src={`${REACT_APP_ASSET_URL}/${props.activeThumb}`} alt="name" />
+        <img src={`${process.env.REACT_APP_ASSET_URL}/${props.activeThumb}`} alt="name" />
       </div>
     </Fragment>
   );

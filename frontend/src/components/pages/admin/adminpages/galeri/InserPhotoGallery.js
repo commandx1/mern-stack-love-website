@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import { useForm } from "../../../../../hooks/useForm";
 import Snackbar from "../../../../snackbar/Snackbar";
 import InsertImage from "./insertImage";
-import { REACT_APP_BACKEND_URL, REACT_APP_ASSET_URL} from '../../../../../env_variables'
 
 const InserPhotoGallery = () => {
   const [message, setmessage] = useState("");
@@ -23,13 +22,14 @@ const InserPhotoGallery = () => {
 
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
+
   const submit = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
       formData.append("image", formState.inputs.image.value);
       const responseData = await sendRequest(
-        REACT_APP_BACKEND_URL + "/upload",
+        process.env.REACT_APP_BACKEND_URL + "/upload",
         "POST",
         formData
       );

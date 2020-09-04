@@ -10,8 +10,11 @@ import {
   ADD_TELLTALE,
   FETCH_MEMORIES,
   FETCH_POEMS,
-  FETCH_TELLTALES
+  FETCH_TELLTALES,
+  REMOVE_IMAGE_FROM_MEMORY,
+  ADD_IMAGE_TO_MEMORY
 } from "./types";
+import { memo } from "react";
 
 
 
@@ -132,6 +135,22 @@ const removeMemory = (memoryID, state) => {
   return { ...state, memories: updatedMemories };
 };
 
+const removeImageFromMemory = (memoryID, state) => {
+  let updatedMemories = state.memories.map(m => m._id === memoryID ? {...m, imageUrl:""} : m)
+  return {
+    ...state,
+    memories: updatedMemories,
+  };
+}
+
+const addImageToMemory = (memory, state) => {
+  let updatedMemories = state.memories.map(m => m._id === memory._id ? {...m, imageUrl:memory.imageUrl} : m)
+  return {
+    ...state,
+    memories: updatedMemories,
+  };
+}
+
 const updateMemory = (memory, state) => {
   let memories = state.memories.filter((m) => m._id !== memory._id);
   let updatedMemories = memories.unshift(memory);
@@ -166,6 +185,10 @@ export const appReducer = (state, action) => {
       return removeMemory(action.payload, state);
     case UPDATE_MEMORY:
       return updateMemory(action.payload, state);
+    case REMOVE_IMAGE_FROM_MEMORY:
+      return removeImageFromMemory(action.payload, state);
+    case ADD_IMAGE_TO_MEMORY:
+      return addImageToMemory(action.payload, state);
     case ADD_ABOUT_ME:
       return addAboutMe(action.payload, state);
     case ADD_ABOUT_HER:

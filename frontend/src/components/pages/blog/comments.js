@@ -7,7 +7,6 @@ import Snackbar from "../../snackbar/Snackbar";
 import useHttpClient from "../../../hooks/useHttpClient";
 import Spinner from "../../spinner/Spinner";
 import Replies from "./replies";
-import { REACT_APP_BACKEND_URL } from '../../../env_variables'
 
 const Comments = ({ comments, setcomments }) => {
   const auth = useContext(authContext);
@@ -23,7 +22,7 @@ const Comments = ({ comments, setcomments }) => {
     setopenModal(false);
     try {
       const res = await sendRequest(
-        `${REACT_APP_BACKEND_URL}/blog/comments/${cid}`,
+        `${process.env.REACT_APP_BACKEND_URL}/blog/comments/${cid}`,
         "DELETE"
       );
       setshowSnackbar(true);

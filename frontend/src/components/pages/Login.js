@@ -8,7 +8,6 @@ import "./login.css";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import ErrorModal from "../../components/error/ErrorModal";
 import Spinner from "../../components/spinner/Spinner";
-import {REACT_APP_BACKEND_URL} from "../../env_variables"
 
 const Login = () => {
   const history = useHistory();
@@ -23,7 +22,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const responseData = await sendRequest(
-        REACT_APP_BACKEND_URL + "/users/login",
+        process.env.REACT_APP_BACKEND_URL + "/users/login",
         "POST",
         JSON.stringify({
           username: user.username,

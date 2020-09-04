@@ -7,7 +7,6 @@ import useHttpClient from "../../hooks/useHttpClient";
 import Spinner from "../spinner/Spinner";
 import Modal from "@material-ui/core/Modal/Modal";
 import DeleteModal from "../deleteModal/deleteModal";
-import {REACT_APP_BACKEND_URL, REACT_APP_ASSET_URL} from "../../env_variables"
 
 const MemoryMain = (props) => {
   const route = useRouteMatch();
@@ -41,7 +40,12 @@ const MemoryMain = (props) => {
   const deleteMemory = async (mid) => {
     handleClose();
     try {
-      await sendRequest(`${REACT_APP_BACKEND_URL}/memories/${mid}`, "DELETE");
+      const res = await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/memories/${mid}`, "DELETE");
+      props.setShowSnackbar(true);
+      props.setmessage({
+        type: res.message.type,
+        content: res.message.content,
+      });
       general.functions.memory.removeMemory(mid);
     } catch (err) {}
   };
@@ -74,7 +78,7 @@ const MemoryMain = (props) => {
         </div>
         {props.memory.imageUrl ? (
           <img
-            src={`${REACT_APP_ASSET_URL}/${props.memory.imageUrl}`}
+            src={`${process.env.REACT_APP_ASSET_URL}/${props.memory.imageUrl}`}
             style={{ maxHeight: "40vh", maxWidth: "100%", margin: "1rem auto" }}
           />
         ) : null}

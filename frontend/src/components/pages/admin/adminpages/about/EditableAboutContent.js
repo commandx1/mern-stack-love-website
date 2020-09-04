@@ -5,7 +5,6 @@ import { useStyles } from "../poems/styles";
 import useHttpClient from "../../../../../hooks/useHttpClient";
 import Spinner from "../../../../spinner/Spinner";
 import Snackbar from "../../../../snackbar/Snackbar";
-import {REACT_APP_BACKEND_URL} from '../../../../../env_variables'
 
 const EditablePoemContent = ({
   p,
@@ -23,7 +22,7 @@ const EditablePoemContent = ({
   const submit = async (p) => {
     try {
       const res = await sendRequest(
-        `${REACT_APP_BACKEND_URL}/about/${name}/${p._id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/about/${name}/${p._id}`,
         "PATCH",
         JSON.stringify({
           title: p.title,

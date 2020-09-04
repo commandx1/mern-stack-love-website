@@ -12,7 +12,6 @@ import useHttpClient from "../../hooks/useHttpClient";
 import Spinner from "../spinner/Spinner";
 import Backdrop from "../backdrop/backdrop";
 import { useHistory } from "react-router-dom";
-import {REACT_APP_ASSET_URL, REACT_APP_BACKEND_URL} from '../../env_variables'
 
 const NewMemoryForm = (props) => {
   const match = useMediaQuery("(max-width: 769px)");
@@ -66,7 +65,7 @@ const NewMemoryForm = (props) => {
       formData.append("content", memory.content);
       formData.append("title", memory.title);
       const responseData = await sendRequest(
-        REACT_APP_BACKEND_URL + "/memories",
+        process.env.REACT_APP_BACKEND_URL + "/memories",
         "POST",
         formData
       );

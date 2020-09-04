@@ -11,7 +11,6 @@ import MainFeaturedPost from "./nav/MainFeaturedPost";
 import FeaturedPost from "./FeaturedPosts";
 import { Route, useRouteMatch } from "react-router-dom";
 import Post from './post'
-import { REACT_APP_BACKEND_URL, REACT_APP_ASSET_URL} from '../../../env_variables'
 import PostsAsCategory from "./postsAsCategory";
 
 const BlogPage = () => {
@@ -35,7 +34,7 @@ const BlogPage = () => {
     const fetchCategories = async () => {
       try {
         const res = await sendRequest(
-          REACT_APP_BACKEND_URL + "/blog/categories"
+          process.env.REACT_APP_BACKEND_URL + "/blog/categories"
         );
         setCategories(res.categories);
       } catch (error) {}
@@ -46,7 +45,7 @@ const BlogPage = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await sendRequest(REACT_APP_BACKEND_URL + "/blog");
+        const res = await sendRequest(process.env.REACT_APP_BACKEND_URL + "/blog");
         setfeaturedPosts(res.posts);
       } catch (error) {}
     };

@@ -8,7 +8,6 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Hidden from "@material-ui/core/Hidden";
 import ReactHtmlParser from "react-html-parser";
 import { NavLink } from "react-router-dom";
-import { REACT_APP_BACKEND_URL, REACT_APP_ASSET_URL} from '../../../env_variables'
 
 const useStyles = makeStyles({
   card: {
@@ -36,7 +35,7 @@ const useStyles = makeStyles({
     },
     "& h6:hover": {
       color: "red",
-    }
+    },
   },
 });
 
@@ -66,11 +65,16 @@ export default function FeaturedPost({ post, image, route }) {
             </NavLink>
           </CardContent>
         </div>
-        <Hidden xsDown>
-          <CardMedia className={classes.cardMedia}>
-            <img src={`${REACT_APP_ASSET_URL}/${image}`} alt={post.title} />
-          </CardMedia>
-        </Hidden>
+        {image ? (
+          <Hidden xsDown>
+            <CardMedia className={classes.cardMedia}>
+              <img
+                src={`${process.env.REACT_APP_ASSET_URL}/${image}`}
+                alt={post.title}
+              />
+            </CardMedia>
+          </Hidden>
+        ) : null}
       </Card>
     </Grid>
   );

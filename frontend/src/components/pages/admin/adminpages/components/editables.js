@@ -19,6 +19,8 @@ const Editables = ({
   setShowSnackbar,
   goTo,
   updateState,
+  removeImageFromElement,
+  addImageToMemory
 }) => {
   const [editingId, setEditingId] = useState(null);
   const classes = useStyles();
@@ -52,6 +54,8 @@ const Editables = ({
                 path={`${route.path}/${element._id}`}
                 render={() => (
                   <Content
+                    addImageToMemory={addImageToMemory}
+                    removeImageFromElement={removeImageFromElement}
                     goTo={goTo}
                     setEditingId={setEditingId}
                     route={route.path}

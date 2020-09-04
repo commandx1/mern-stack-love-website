@@ -23,6 +23,14 @@ router.patch(
   memoryController.updateMemory
 );
 
+router.patch(
+  "/image/:mid",
+  fileUpload.single('image'),
+  memoryController.addImage
+);
+
 router.delete("/:mid", memoryController.deleteMemory);
+
+router.delete("/image/:mid", memoryController.deleteImage);
 
 module.exports = router;

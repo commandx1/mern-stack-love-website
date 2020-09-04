@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Thumbnail from "./thumbnail";
 import useHttpClient from "../../../hooks/useHttpClient";
-import { REACT_APP_BACKEND_URL } from "../../../env_variables";
 
 const ThumbnailGrid = (props) => {
   const style = {
@@ -20,7 +19,7 @@ const ThumbnailGrid = (props) => {
     const fetchPoems = async () => {
       try {
         const responseData = await sendRequest(
-          `${REACT_APP_BACKEND_URL}/upload/${props.currentPage}`
+          `${process.env.REACT_APP_BACKEND_URL}/upload/${props.currentPage}`
         );
         props.updateNumOfLoadedImages(responseData.images.length);
         props.updateSource(responseData.images[0].imageUrl,responseData.images[0]._id);

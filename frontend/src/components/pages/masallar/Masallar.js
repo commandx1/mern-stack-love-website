@@ -6,7 +6,6 @@ import useHttpClient from '../../../hooks/useHttpClient'
 import PageTitle from "../../Container/PageTitle";
 import { NavLink, Route, useRouteMatch } from "react-router-dom";
 import parser from "react-html-parser";
-import {REACT_APP_ASSET_URL, REACT_APP_BACKEND_URL} from '../../../env_variables'
 
 const Masallar = () => {
   const { isLoading, error, open, sendRequest, clearError } = useHttpClient();
@@ -19,7 +18,7 @@ const Masallar = () => {
     const fetchTelltales = async () => {
       try {
         const responseData = await sendRequest(
-          `${REACT_APP_BACKEND_URL}/telltales`
+          `${process.env.REACT_APP_BACKEND_URL}/telltales`
         );
         general.functions.telltale.fetchTelltales(responseData.telltales);
       } catch (err) {}
@@ -71,7 +70,7 @@ const Masallar = () => {
           <Route key={m._id} path={`${params.path}/${m._id}/${m.title}`}>
             <div>
               <h3 className="masal-title">{m.title}</h3>
-              <img src={`${REACT_APP_ASSET_URL}/${m.imageUrl}`} alt={m.title} />{" "}
+              <img src={`${process.env.REACT_APP_ASSET_URL}/${m.imageUrl}`} alt={m.title} />{" "}
               <div className="masallar-content">{parser(m.content)}</div>
             </div>
           </Route>

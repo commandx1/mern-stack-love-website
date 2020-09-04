@@ -11,7 +11,6 @@ import { Route, useRouteMatch, NavLink } from "react-router-dom";
 import Spinner from "../../components/spinner/Spinner";
 import Snackbar from "../snackbar/Snackbar";
 import ErrorModal from "../../components/error/ErrorModal";
-import { REACT_APP_BACKEND_URL } from '../../env_variables'
 
 const Memories = () => {
   const route = useRouteMatch();
@@ -33,7 +32,7 @@ const Memories = () => {
     const fetchMemories = async () => {
       try {
         const responseData = await sendRequest(
-          `${REACT_APP_BACKEND_URL}/memories`
+          `${process.env.REACT_APP_BACKEND_URL}/memories`
         );
         general.functions.memory.fetchMemories(responseData.memories);
       } catch (err) {}
@@ -56,7 +55,7 @@ const Memories = () => {
       </Route>
 
       {fetchedMemories.map((memory) => (
-        <Route path={`${route.path}/${memory.title}`}>
+        <Route key={memory._id} path={`${route.path}/${memory.title}`}>
           <UpdateMemory
             open={open2}
             setmessage={setmessage}
@@ -83,7 +82,13 @@ const Memories = () => {
 
         <div id="memories">
           {fetchedMemories.map((memory) => (
-            <MemoryMain memory={memory} setopen2={setopen2} />
+            <MemoryMain
+              setmessage={setmessage}
+              setShowSnackbar={setShowSnackbar}
+              key={memory._id}
+              memory={memory}
+              setopen2={setopen2}
+            />
           ))}
         </div>
       </Container>

@@ -7,33 +7,33 @@ import useHttpClient from "../../../hooks/useHttpClient";
 import Spinner from '../../spinner/Spinner'
 import ReactHtmlParser from 'react-html-parser'
 import "./about.css";
-import { REACT_APP_BACKEND_URL} from '../../../env_variables'
  
 const About = () => {
   const general = useContext(generalContext);
   const { isLoading, error, open, sendRequest, clearError } = useHttpClient();
   useEffect(() => {
-    const fetchPoems = async () => {
+    const fetchAboutSerhat = async () => {
       try {
         const responseData = await sendRequest(
-          `${REACT_APP_BACKEND_URL}/about/serhat`
+          `${process.env.REACT_APP_BACKEND_URL}/about/serhat`
         );
         general.functions.about.fetchAboutMe(responseData.abouts);
       } catch (err) {}
     };
-    fetchPoems();
-  }, [sendRequest]);
+    fetchAboutSerhat();
+  }, []);
+  
   useEffect(() => {
-    const fetchPoems = async () => {
+    const fetchAboutCeren = async () => {
       try {
         const responseData = await sendRequest(
-          `${REACT_APP_BACKEND_URL}/about/ceren`
+          `${process.env.REACT_APP_BACKEND_URL}/about/ceren`
         );
         general.functions.about.fetchAboutHer(responseData.abouts);
       } catch (err) {}
     };
-    fetchPoems();
-  }, [sendRequest]);
+    fetchAboutCeren();
+  }, []);
   return (
     !isLoading && general.globalState.aboutMe && general.globalState.aboutHer &&
     <Fragment>

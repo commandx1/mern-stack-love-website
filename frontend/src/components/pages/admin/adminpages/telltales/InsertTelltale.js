@@ -8,10 +8,10 @@ import { useForm } from "../../../../../hooks/useForm";
 import useHttpClient from "../../../../../hooks/useHttpClient";
 import ImageUpload from "../../../../formelements/imageUpload/imageUpload";
 import { useHistory } from "react-router-dom";
-import { REACT_APP_BACKEND_URL, REACT_APP_ASSET_URL} from '../../../../../env_variables'
 
 const useStyles = makeStyles({
   form: {
+    flex: "1 1",
     display: "flex",
     flexDirection: "column",
     paddingBottom: ".5rem",
@@ -60,7 +60,7 @@ const InsertTelltale = () => {
           formData.append("content", masal.content);
           formData.append("image", formState.inputs.image.value);
           const responseData = await sendRequest(
-            REACT_APP_BACKEND_URL + "/telltales",
+            process.env.REACT_APP_BACKEND_URL + "/telltales",
             "POST",
             formData
           );

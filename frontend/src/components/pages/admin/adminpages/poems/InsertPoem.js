@@ -8,7 +8,6 @@ import { useHistory } from "react-router-dom";
 import useHttpClient from "../../../../../hooks/useHttpClient";
 import { useForm } from "../../../../../hooks/useForm";
 import ImageUpload from "../../../../formelements/imageUpload/imageUpload";
-import { REACT_APP_BACKEND_URL, REACT_APP_ASSET_URL} from '../../../../../env_variables'
 
 const InsertPoem = () => {
   const { isLoading, error, open, sendRequest, clearError } = useHttpClient();
@@ -31,6 +30,7 @@ const InsertPoem = () => {
 
   const useStyles = makeStyles({
     form: {
+      flex: "1 1",
       display: "flex",
       flexDirection: "column",
       paddingBottom: ".5rem",
@@ -60,7 +60,7 @@ const InsertPoem = () => {
           formData.append("content", poem.content);
           formData.append("image", formState.inputs.image.value);
           const responseData = await sendRequest(
-            REACT_APP_BACKEND_URL + "/poems",
+            process.env.REACT_APP_BACKEND_URL + "/poems",
             "POST",
             formData
           );

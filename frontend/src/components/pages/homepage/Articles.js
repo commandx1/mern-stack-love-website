@@ -6,7 +6,6 @@ import { NavLink } from "react-router-dom";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ReactHtmlParser from "react-html-parser"
-import {REACT_APP_ASSET_URL, REACT_APP_BACKEND_URL} from '../../../env_variables'
 
 const Articles = () => {
   const {sendRequest, isLoading} = useHttpClient()
@@ -19,7 +18,7 @@ const Articles = () => {
     const fetchMemories = async () => {
       try {
         const responseData = await sendRequest(
-          `${REACT_APP_BACKEND_URL}/memories/getfirstthree`,
+          `${process.env.REACT_APP_BACKEND_URL}/memories/getfirstthree`,
         );
         setthreeMemories(responseData.memories)
       } catch (err) {}
@@ -31,7 +30,7 @@ const Articles = () => {
     const fetchFirstPoem = async () => {
       try {
         const responseData = await sendRequest(
-          `${REACT_APP_BACKEND_URL}/poems/getfirst`,
+          `${process.env.REACT_APP_BACKEND_URL}/poems/getfirst`,
         );
         setpoem(responseData.poem[0])
       } catch (err) {}

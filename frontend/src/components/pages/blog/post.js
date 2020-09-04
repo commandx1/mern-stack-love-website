@@ -7,10 +7,6 @@ import Editor from "../../editor/Editor";
 import useHttpClient from "../../../hooks/useHttpClient";
 import Spinner from "../../spinner/Spinner";
 import Comments from "./comments";
-import {
-  REACT_APP_BACKEND_URL,
-  REACT_APP_ASSET_URL,
-} from "../../../env_variables";
 
 const Post = ({ post }) => {
   const [showCommentForm, setShowCommentForm] = useState(false);
@@ -29,7 +25,7 @@ const Post = ({ post }) => {
   const sendComment = async () => {
     try {
       const res = await sendRequest(
-        REACT_APP_BACKEND_URL + "/blog/comments",
+        process.env.REACT_APP_BACKEND_URL + "/blog/comments",
         "POST",
         JSON.stringify({
           content: comment,
@@ -49,7 +45,7 @@ const Post = ({ post }) => {
     const fetchComments = async () => {
       try {
         const responseData = await sendRequest(
-          REACT_APP_BACKEND_URL + `/blog/comments/post/${post._id}`
+          process.env.REACT_APP_BACKEND_URL + `/blog/comments/post/${post._id}`
         );
         setcomments(responseData.comments);
       } catch (err) {}
@@ -65,9 +61,11 @@ const Post = ({ post }) => {
             {post.username} tarafından {tarih}
           </div>
         </div>
-        <div className="post-main_image">
-          <img src={REACT_APP_ASSET_URL + "/" + post.imageUrl} />
-        </div>
+        {post.imageUrl ? (
+          <div className="post-main_image">
+            <img src={process.env.REACT_APP_ASSET_URL + "/" + post.imageUrl} />
+          </div>
+        ) : null}
         <div className="selected-post-title">{post.title}</div>
 
         <div className="selected-post-content">{Parser(post.content)}</div>
@@ -79,7 +77,7 @@ const Post = ({ post }) => {
                 e.preventDefault();
                 sendComment();
               }}
-              className="comment-form" 
+              className="comment-form"
             >
               <Editor
                 data={comment}

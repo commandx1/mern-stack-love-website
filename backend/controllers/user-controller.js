@@ -93,11 +93,7 @@ const login = async (req, res, next) => {
     return next(error);
   }
   if (!existingUser || existingUser.password !== password) {
-    const error = new HttpError(
-      "Hatalı giriş yaptınız, lütfen tekrar deneyiniz.",
-      401
-    );
-    return next(error);
+    res.status(401).send({message: "Hatalı giriş yaptınız, lütfen tekrar deneyiniz."})
   }
   res.json({
     message: "Hoşgeldin " + existingUser.name + " :)) Nasılsın tatlı şey ?",

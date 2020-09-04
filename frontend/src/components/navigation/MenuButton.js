@@ -75,13 +75,13 @@ const Deneme = () => {
       justifyContent: "center",
       zIndex: 501,
       fontFamily: "Sriracha, cursive",
-      "& button" : {
+      "& button": {
         background: "transparent",
         border: "none",
         cursor: "pointer",
         fontFamily: "Sriracha, cursive",
-        width: !matches && "100vw"
-      }
+        width: !matches && "100vw",
+      },
     },
     navMenu: {
       backgroundImage: matches && `url(${heart})`,
@@ -128,14 +128,11 @@ const Deneme = () => {
       <div className={classes.menu}>
         <div className={classes.navMenu}>
           <ul className={classes.list}>
-            <NavLink className={classes.item} to="/">
-              Anasayfa
-            </NavLink>
-            <NavLink className={classes.item} to="/Masallar">
-              Masallar
-            </NavLink>
             {auth.isLoggedIn ? (
               <>
+                <NavLink className={classes.item} to="/">
+                  Anasayfa
+                </NavLink>
                 <NavLink className={classes.item} to="/Hakkımızda">
                   Hakkımızda
                 </NavLink>
@@ -145,14 +142,17 @@ const Deneme = () => {
                 <NavLink className={classes.item} to="/Anılar">
                   Anılar
                 </NavLink>
-                <NavLink className={classes.item} to="/Admin">
-                  Admin Paneli
+                <NavLink className={classes.item} to="/Masallar">
+                  Masallar
                 </NavLink>
                 <NavLink className={classes.item} to="/Galeri">
                   Galeri
                 </NavLink>
                 <NavLink className={classes.item} to="/Blog">
                   Blog
+                </NavLink>
+                <NavLink className={classes.item} to="/Admin">
+                  Admin Paneli
                 </NavLink>
                 <button
                   onClick={
@@ -173,7 +173,7 @@ const Deneme = () => {
                     auth.logout();
                   }}
                   className={classes.item}
-                  to="/Login"
+                  to="/"
                 >
                   Çıkış
                 </NavLink>

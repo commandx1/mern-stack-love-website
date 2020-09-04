@@ -8,7 +8,6 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import { useStyles } from "../poems/styles";
 import Spinner from "../../../../spinner/Spinner";
 import { useRouteMatch, useHistory } from "react-router-dom";
-import { REACT_APP_BACKEND_URL } from "../../../../../env_variables";
 
 const Title = ({
   element,
@@ -33,7 +32,7 @@ const Title = ({
     ? async (aid) => {
         try {
           const res = await sendRequest(
-            `${REACT_APP_BACKEND_URL}/about/${name}/${aid}`,
+            `${process.env.REACT_APP_BACKEND_URL}/about/${name}/${aid}`,
             "DELETE"
           );
           setShowSnackbar(true);
@@ -47,7 +46,7 @@ const Title = ({
     : async (id) => {
         try {
           const res = await sendRequest(
-            `${REACT_APP_BACKEND_URL}/${deletingThing}/${id}`,
+            `${process.env.REACT_APP_BACKEND_URL}/${deletingThing}/${id}`,
             "DELETE"
           );
           setShowSnackbar(true);

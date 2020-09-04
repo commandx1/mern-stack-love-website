@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useCallback, useState, Suspense } from "react";
 import { authContext } from "./WRAPPERS/Context/myContext";
 import "./App.css";
 import PageContent from "./WRAPPERS/PageContent";
@@ -6,19 +6,27 @@ import Logo from "./components/logo/Logo";
 import Footer from "./components/footer/Footer";
 import MenuButton from "./components/navigation/MenuButton";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Login from "./components/pages/Login";
-import Homepage from "./components/pages/homepage/Homepage";
-import NotFound from "./components/pages/notfound/Notfound";
 import Scrolltop from "./components/ScrollTop/Scrolltop";
-import Masallar from "./components/pages/masallar/Masallar";
-import About from "./components/pages/hakkımızda/About";
-import Gallery from "./components/pages/galeri/Gallery";
-import Siirler from "./components/pages/şiir/Siirler";
-import Memories from "./components/memories/Memories";
-import Admin from "./components/pages/admin/Admin";
-import BlogPage from "./components/pages/blog/BlogPage";
-import MainGallery from "./components/pages/galeri/MainGallery";
-import MyGallery from "./components/pages/galeri/MyGallery";
+import Spinner from "./components/spinner/Spinner";
+
+const Login = React.lazy(() => import("./components/pages/Login"));
+const Homepage = React.lazy(() =>
+  import("./components/pages/homepage/Homepage")
+);
+const NotFound = React.lazy(() =>
+  import("./components/pages/notfound/Notfound")
+);
+const Masallar = React.lazy(() =>
+  import("./components/pages/masallar/Masallar")
+);
+const About = React.lazy(() => import("./components/pages/hakkımızda/About"));
+const MainGallery = React.lazy(() =>
+  import("./components/pages/galeri/MainGallery")
+);
+const Siirler = React.lazy(() => import("./components/pages/şiir/Siirler"));
+const Memories = React.lazy(() => import("./components/memories/Memories"));
+const Admin = React.lazy(() => import("./components/pages/admin/Admin"));
+const BlogPage = React.lazy(() => import("./components/pages/blog/BlogPage"));
 
 function App() {
   const [isLoggedIn, setisLoggedIn] = useState(false);
@@ -41,16 +49,16 @@ function App() {
     }
   });
 
-  const login = useCallback((uid,name) => {
+  const login = useCallback((uid, name) => {
     setisLoggedIn(true);
     setuserId(uid);
-    setName(name)
+    setName(name);
   }, []);
 
   const logout = useCallback(() => {
     setisLoggedIn(false);
     setuserId(null);
-    setName(null)
+    setName(null);
   }, []);
 
   let routes;
@@ -95,17 +103,9 @@ function App() {
     </Switch>
   ) : (
     <Switch>
-      <Route path="/" exact>
-        <Logo />
-        <Homepage />
-      </Route>
-      <Route exact path="/Login">
+      <Route exact path="/">
         <Logo />
         <Login />
-      </Route>
-      <Route path="/Masallar">
-        <Logo />
-        <Masallar />
       </Route>
       <Route exact path="*">
         <Logo />
@@ -117,10 +117,20 @@ function App() {
   return (
     <div className="App">
       <PageContent>
-        <authContext.Provider value={{ isLoggedIn,userId, name, login, logout }}>
+        <authContext.Provider
+          value={{ isLoggedIn, userId, name, login, logout }}
+        >
           <BrowserRouter>
             <MenuButton />
-            {routes}
+            <Suspense
+              fallback={
+                <div>
+                  <Spinner />
+                </div>
+              }
+            >
+              {routes}
+            </Suspense>
           </BrowserRouter>
           <Scrolltop />
           <Footer />

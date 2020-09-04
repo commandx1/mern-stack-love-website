@@ -25,6 +25,14 @@ router.patch(
   poemController.updatePoem
 );
 
+router.patch(
+  "/image/:pid",
+  fileUpload.single('image'),
+  poemController.addImage
+);
+
 router.delete("/:pid", poemController.deletePoem);
+
+router.delete("/image/:pid", poemController.deleteImage);
 
 module.exports = router;

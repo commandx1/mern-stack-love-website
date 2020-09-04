@@ -23,6 +23,14 @@ router.patch(
   telltaleController.updateTelltales
 );
 
+router.patch(
+  "/image/:tid",
+  fileUpload.single('image'),
+  telltaleController.addImage
+);
+
 router.delete("/:tid", telltaleController.deleteTelltale);
+
+router.delete("/image/:tid", telltaleController.deleteImage);
 
 module.exports = router;

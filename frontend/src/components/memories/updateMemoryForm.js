@@ -11,7 +11,6 @@ import useHttpClient from "../../hooks/useHttpClient";
 import ImageUpload from "../formelements/imageUpload/imageUpload";
 import { useHistory } from "react-router-dom";
 import Spinner from "../spinner/Spinner";
-import {REACT_APP_BACKEND_URL} from '../../env_variables'
 
 const UpdateMemory = (props) => {
   const match = useMediaQuery("(max-width: 769px)");
@@ -34,6 +33,13 @@ const UpdateMemory = (props) => {
       textDecoration: "underline",
       margin: ".3rem auto .2rem auto",
       fontSize: yatay ? ".6rem" : "1rem",
+    },
+    imageDiv: {
+      border: "1px solid",
+      width: "90%",
+      margin: ".5rem auto 1rem",
+      paddingTop: "1rem",
+      background: "cadetblue",
     },
   });
   const [memory, setmemory] = useState({
@@ -59,9 +65,8 @@ const UpdateMemory = (props) => {
       const formData = new FormData();
       formData.append("content", m.content);
       formData.append("title", m.title);
-      formData.append("image", formState.inputs.image.value);
       const responseData = await sendRequest(
-        `${REACT_APP_BACKEND_URL}/memories/${m._id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/memories/${m._id}`,
         "PATCH",
         formData
       );
@@ -71,6 +76,43 @@ const UpdateMemory = (props) => {
       props.setmessage({
         type: responseData.message.type,
         content: responseData.message.content,
+      });
+      props.setopen2(false);
+      history.goBack();
+    } catch (err) {}
+  };
+
+  const imageRemoveHandler = async () => {
+    try {
+      const res = await sendRequest(
+        `${process.env.REACT_APP_BACKEND_URL}/memories/image/${props.m._id}`,
+        "DELETE"
+      );
+      general.functions.memory.removeImageFromMemory(props.m._id);
+      props.setShowSnackbar(true);
+      props.setmessage({
+        type: res.message.type,
+        content: res.message.content,
+      });
+      props.setopen2(false);
+      history.goBack();
+    } catch (err) {}
+  };
+  const imageInsertHandler = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("image", formState.inputs.image.value);
+      const res = await sendRequest(
+        `${process.env.REACT_APP_BACKEND_URL}/memories/image/${props.m._id}`,
+        "PATCH",
+        formData
+      );
+      console.log(res);
+      general.functions.memory.addImageToMemory(res.memory);
+      props.setShowSnackbar(true);
+      props.setmessage({
+        type: res.message.type,
+        content: res.message.content,
       });
       props.setopen2(false);
       history.goBack();
@@ -88,6 +130,33 @@ const UpdateMemory = (props) => {
           updateMemory(memory);
         }}
       >
+        <div className={classes.imageDiv}>
+          {props.m.imageUrl ? (
+            <Button
+              onClick={imageRemoveHandler}
+              color="secondary"
+              variant="contained"
+            >
+              Fotoğrafı Kaldır
+            </Button>
+          ) : (
+            <Button
+              onClick={imageInsertHandler}
+              color="primary"
+              variant="contained"
+              disabled={!formState.isValid}
+            >
+              Fotoğrafı ekle
+            </Button>
+          )}
+          <ImageUpload
+            updateUrl={props.m.imageUrl}
+            id="image"
+            onInput={inputHandler}
+            center
+            errorText="Lütfen Geçerli Bir Resim Yükleyiniz"
+          />
+        </div>
         <Input
           style={{ flex: 1 }}
           inputStyle={{ textAlign: "center" }}
@@ -105,21 +174,21 @@ const UpdateMemory = (props) => {
             setmemory({ ...memory, content: data });
           }}
         />
-        <ImageUpload
-          updateUrl={props.m.imageUrl}
-          id="image"
-          onInput={inputHandler}
-          center
-          errorText="Lütfen Geçerli Bir Resim Yükleyiniz"
-        />
         <Button
           style={{ flex: 1 }}
           variant="contained"
           color="primary"
           fullWidth
           type="submit"
+          disabled={
+            props.m.title === memory.title && props.m.content === memory.content
+              ? true
+              : false
+          }
         >
-          Gönder
+          {props.m.title === memory.title && props.m.content === memory.content
+            ? "Herhangi bir değişiklik yapılmadı"
+            : "Gönder"}
         </Button>
       </form>
     </Modal>

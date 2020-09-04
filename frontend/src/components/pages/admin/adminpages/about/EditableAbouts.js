@@ -7,7 +7,6 @@ import { useStyles } from "../poems/styles";
 import Spinner from "../../../../spinner/Spinner";
 import AboutTitle from "../components/editableTitle";
 import Snackbar from "../../../../snackbar/Snackbar";
-import {REACT_APP_BACKEND_URL} from "../../../../../env_variables"
 
 const EditablePoems = () => {
   const { isLoading, error, open, sendRequest, clearError } = useHttpClient();
@@ -26,7 +25,7 @@ const EditablePoems = () => {
     const fetchAbouts = async () => {
       try {
         const responseData = await sendRequest(
-          `${REACT_APP_BACKEND_URL}/about/${name}`
+          `${process.env.REACT_APP_BACKEND_URL}/about/${name}`
         );
         setfetchedAbouts(responseData.abouts);
       } catch (err) {}
@@ -45,7 +44,7 @@ const EditablePoems = () => {
         alert="error"
       />
       {isLoading && <Spinner />}
-      {fetchedAbouts.length === 0 && <p>Hiç Şiir Yok !</p>}
+      {fetchedAbouts.length === 0 && <p>Hiç yazı Yok !</p>}
       {fetchedAbouts &&
         fetchedAbouts.map((p, index) => (
           <div key={p._id} className={classes.container}>

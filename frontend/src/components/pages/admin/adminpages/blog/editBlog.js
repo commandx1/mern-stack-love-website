@@ -3,17 +3,7 @@ import Nav from "./editBlogNav";
 import { Route, useRouteMatch } from "react-router-dom";
 import FetchPostsAsCategory from "./fetchPostsAsCategory";
 import useHttpClient from "../../../../../hooks/useHttpClient";
-import { REACT_APP_BACKEND_URL, REACT_APP_ASSET_URL} from '../../../../../env_variables'
 import './style.css'
-
-const categories = [
-  { title: "Uzay", value: "space" },
-  { title: "Doğa", value: "nature" },
-  { title: "Sağlıklı Yaşam", value: "health" },
-  { title: "Gezilecek Yerler", value: "travel" },
-  { title: "Teknoloji", value: "technology" },
-  { title: "Spor", value: "sport" },
-];
 
 const EditBlog = () => {
   const route = useRouteMatch();
@@ -24,7 +14,7 @@ const EditBlog = () => {
     const fetchCategories = async () => {
       try {
         const res = await sendRequest(
-           REACT_APP_BACKEND_URL + "/blog/categories"
+           process.env.REACT_APP_BACKEND_URL + "/blog/categories"
         );
         setCategories(res.categories);
       } catch (error) {}

@@ -1,6 +1,5 @@
 import React from "react";
 import useMedia from "@material-ui/core/useMediaQuery/useMediaQuery"
-import { REACT_APP_ASSET_URL } from "../../../env_variables";
 
 
 const Thumbnail = (props) => {
@@ -20,7 +19,7 @@ const Thumbnail = (props) => {
   }
   return (
     <div onClick={() => props.activeImageChange(props.imageId)} style={styles} >
-      <img style={imgStyle} src={`${REACT_APP_ASSET_URL}/${props.imageSrc}`} alt="name" />
+      <img style={imgStyle} src={`${process.env.REACT_APP_ASSET_URL}/${props.imageSrc}`} alt="name" />
     </div>
   );
 };
