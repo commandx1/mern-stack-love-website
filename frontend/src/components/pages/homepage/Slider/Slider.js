@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import MakeStyles from "@material-ui/styles/makeStyles";
 import "./slider.css";
 import deneme from "../../../../assets/slide1.jpeg";
-import deneme2 from "../../../../assets/deneme2.png";
-import deneme4 from "../../../../assets/deneme4.png";
-import deneme3 from "../../../../assets/deneme3.png";
+import deneme2 from "../../../../assets/slide2.jpeg";
+import deneme4 from "../../../../assets/slide3.jpeg";
 
 const Carousel = () => {
   const [myState, setmyState] = useState(false);
@@ -23,7 +22,6 @@ const Carousel = () => {
   let sliderArr = [
     <img src={deneme} className={classes.images} alt="slide1" />,
     <img src={deneme2} className={classes.images} alt="slide2" />,
-    <img src={deneme3} className={classes.images} alt="slide3" />,
     <img src={deneme4} className={classes.images} alt="slide4" />,
   ];
 

@@ -8,7 +8,7 @@ const Logo = () => {
     const auth = useContext(authContext)
     
     return ( 
-        <Link to={auth.isLoggedIn ? "/" : "/Login"}><img id="logo" src={logo} alt="logo" /></Link>
+        <Link to="/"><img id="logo" src={logo} alt="logo" /></Link>
     )
 }
 

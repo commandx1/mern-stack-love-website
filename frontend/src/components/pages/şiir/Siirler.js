@@ -6,7 +6,6 @@ import PageTitle from "../../Container/PageTitle";
 import useHttpClient from "../../../hooks/useHttpClient";
 import ReactHtmlParser from "react-html-parser";
 
-
 const Siirler = () => {
   const general = useContext(generalContext);
   const { isLoading, error, open, sendRequest, clearError } = useHttpClient();
@@ -32,9 +31,16 @@ const Siirler = () => {
           {fetchedPoems.map((siir) => (
             <div key={siir._id} className="siir-card">
               {siir.imageUrl ? (
-                <img
-                  src={`${process.env.REACT_APP_ASSET_URL}/${siir.imageUrl}`}
-                  alt={siir.title}
+                <div
+                  style={{
+                    backgroundImage: `url(${process.env.REACT_APP_ASSET_URL}/${siir.imageUrl})`,
+                    width: "100%",
+                    height: "200px",
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                    marginBottom: "1.5rem"
+                  }}
                 />
               ) : null}
               <h3>{siir.title}</h3>

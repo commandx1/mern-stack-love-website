@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import PageTitle from "../../Container/PageTitle";
-import image from "../../../assets/deneme2.png";
 import { authContext } from "../../../WRAPPERS/Context/myContext";
 import useHttpClient from "../../../hooks/useHttpClient";
 import "./blogpage.css";
@@ -80,7 +79,7 @@ const BlogPage = () => {
           </Route>
         ))}
         {featuredPosts.map((post) => (
-          <Route key={post._id} path={`${route.path}/postId/${post._id}/Başlık/${post.title}`}>
+          <Route key={post._id} path={`${route.path}/postId/${post._id}`}>
             <Post post={post}/>
           </Route>
         ))}

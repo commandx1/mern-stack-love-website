@@ -4,7 +4,7 @@ import useHttpClient from "../../../hooks/useHttpClient";
 
 const ThumbnailGrid = (props) => {
   const style = {
-    height: "20%",
+    height: "25%",
     width: "100%",
     background: "#844",
     display: "flex",

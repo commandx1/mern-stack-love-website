@@ -1,4 +1,10 @@
-import React, { useEffect, useCallback, useState, Suspense } from "react";
+import React, {
+  useEffect,
+  useCallback,
+  useState,
+  Suspense,
+  useContext,
+} from "react";
 import { authContext } from "./WRAPPERS/Context/myContext";
 import "./App.css";
 import PageContent from "./WRAPPERS/PageContent";
@@ -50,18 +56,23 @@ function App() {
   });
 
   const login = useCallback((uid, name) => {
-    setisLoggedIn(true);
     setuserId(uid);
     setName(name);
+    setisLoggedIn(true);
+    document.getElementById("root").style.height = "auto";
+    document.querySelector(".push").style.display = "block";
   }, []);
 
   const logout = useCallback(() => {
-    setisLoggedIn(false);
+    document.getElementById("root").style.height = "100%";
+    document.querySelector(".push").style.display = "none";
     setuserId(null);
     setName(null);
+    setisLoggedIn(false);
   }, []);
 
   let routes;
+  const now = new Date();
 
   routes = isLoggedIn ? (
     <Switch>
@@ -115,7 +126,7 @@ function App() {
   );
 
   return (
-    <div className="App">
+    <>
       <PageContent>
         <authContext.Provider
           value={{ isLoggedIn, userId, name, login, logout }}
@@ -133,13 +144,11 @@ function App() {
             </Suspense>
           </BrowserRouter>
           <Scrolltop />
-          <Footer />
         </authContext.Provider>
       </PageContent>
-      <div className="push"></div>
-      <div className="push"></div>
-      <div className="push"></div>
-    </div>
+      <div className="push" />
+      <Footer />
+    </>
   );
 }
 

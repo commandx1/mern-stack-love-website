@@ -58,6 +58,7 @@ const EditPoems = () => {
     <Fragment>
       {isLoading && <Spinner />}
       <EditablePoems
+        editorType="poem"
         addImageToMemory={addImageToMemory}
         removeImageFromElement={removeImageFromElement}
         updateState={updateState}

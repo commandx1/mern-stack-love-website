@@ -1,8 +1,9 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Collapse, Button } from "@material-ui/core";
 import Editor from "../../../../editor/Editor";
 import { useStyles } from "../poems/styles";
 import useHttpClient from "../../../../../hooks/useHttpClient";
+import { authContext } from "../../../../../WRAPPERS/Context/myContext";
 import { useForm } from "../../../../../hooks/useForm";
 import Spinner from "../../../../spinner/Spinner";
 import ImageUpload from "../../../../formelements/imageUpload/imageUpload";
@@ -21,10 +22,12 @@ const Content = ({
   setEditingId,
   goTo,
   removeImageFromElement,
-  addImageToMemory
+  addImageToMemory,
+  editorType,
 }) => {
   const history = useHistory();
   const classes = useStyles();
+  const auth = useContext(authContext);
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -39,11 +42,12 @@ const Content = ({
   const { isLoading, error, open, sendRequest, clearError } = useHttpClient();
   const [deneme, setdeneme] = useState(false);
   const submit = async (element) => {
+    let res;
     try {
       const formData = new FormData();
       formData.append("title", element.title);
       formData.append("content", element.content);
-      const res = await sendRequest(
+      res = await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}/${deletingThing}/${element._id}`,
         "PATCH",
         formData
@@ -59,8 +63,47 @@ const Content = ({
         : history.push(route);
       setEditingId(null);
     } catch (err) {}
+
+    try {
+      let redirect
+      let subject
+      switch (deletingThing) {
+        case 'telltales':
+          {
+            redirect = `/Masallar/${res.telltale._id}/${res.telltale.title}`
+            subject = 'masallarda'
+          }
+          break;
+        case 'poems':
+          {
+            redirect = `/Şiirler`
+            subject = 'şiirlerde'
+          }
+          break;      
+        case 'blog':
+          {
+            subject = 'blogda'
+          }
+          break;      
+        default:
+          break;
+      }
+      await sendRequest(
+        process.env.REACT_APP_BACKEND_URL + "/notifications",
+        "POST",
+        JSON.stringify({
+          userId: auth.userId,
+          username: auth.name,
+          redirect: goTo
+            ? `${goTo}/${res.post._id}/Başlık/${res.post.title}`
+            : redirect,
+          content: `${auth.name}, ${subject} bir güncelleme yaptı.`,
+        }),
+        { "Content-Type": "application/json" }
+      );
+    } catch (err) {}
   };
-  const imageRemoveHandler = async() => {
+  const imageRemoveHandler = async () => {
     try {
       const res = await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}/${deletingThing}/image/${element._id}`,
@@ -112,6 +155,7 @@ const Content = ({
           }}
         >
           <Editor
+            type={editorType}
             style={{ flex: 15 }}
             data={element.content}
             onChange={(e, editor) => {

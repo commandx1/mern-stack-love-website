@@ -62,6 +62,7 @@ const FetchPostsAsCategory = (props) => {
     <div>
       {isLoading && <Spinner />}
       <EditablePost
+        editorType="blog"
         addImageToMemory={addImageToMemory}
         removeImageFromElement={removeImageFromElement}
         goTo="/Blog/postId"

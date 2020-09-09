@@ -8,7 +8,7 @@ import useHttpClient from "../../../hooks/useHttpClient";
 import Spinner from "../../spinner/Spinner";
 import Replies from "./replies";
 
-const Comments = ({ comments, setcomments }) => {
+const Comments = ({ comments, setcomments, post }) => {
   const auth = useContext(authContext);
   const { sendRequest, isLoading } = useHttpClient();
   const [openModal, setopenModal] = useState(false);
@@ -60,9 +60,11 @@ const Comments = ({ comments, setcomments }) => {
             ) : null}
             <div
               key={c._id}
-              style={{
-                // textAlign: c.username === auth.name ? "left" : "right",
-              }}
+              style={
+                {
+                  // textAlign: c.username === auth.name ? "left" : "right",
+                }
+              }
               className={
                 c.username === auth.name
                   ? "post-comment myBg"
@@ -81,8 +83,9 @@ const Comments = ({ comments, setcomments }) => {
                 <div className="comment-time">({c.date})</div>
               </div>
               <div className="comment-content">
-                {Parser(c.content)}
-                <Replies comment={c} />
+                <div>{Parser(c.content)}</div>
+
+                <Replies post={post} comment={c} />
               </div>
             </div>
             <DeleteModal

@@ -19,6 +19,7 @@ const categoryRoutes = require("./routes/blog/category-router")
 const blogRoutes = require("./routes/blog/blog-router")
 const commentRoutes = require("./routes/blog/comment-router")
 const replyRoutes = require("./routes/blog/reply-router")
+const notificationRoutes = require("./routes/notification-router")
 
 const app = express();
 
@@ -52,6 +53,7 @@ app.use("/api/blog/categories", categoryRoutes)
 app.use("/api/blog", blogRoutes)
 app.use("/api/blog/comments", commentRoutes)
 app.use("/api/blog/replies", replyRoutes)
+app.use("/api/notifications", notificationRoutes)
 
 app.use((req, res, next) => {
   res.sendFile(path.resolve(__dirname, 'public', 'index.html'))

@@ -1,5 +1,5 @@
 import React, { useContext, useState, Fragment } from "react";
-import { authContext } from "../../WRAPPERS/Context/myContext";
+import { authContext,generalContext } from "../../WRAPPERS/Context/myContext";
 import { useHistory } from "react-router-dom";
 import useHttpClient from "../../hooks/useHttpClient";
 import TextField from "@material-ui/core/TextField";
@@ -17,6 +17,7 @@ const Login = () => {
   });
   const [checked, setchecked] = useState(false);
   const auth = useContext(authContext);
+  const general = useContext(generalContext);
   const { isLoading, sendRequest, open, clearError, error } = useHttpClient();
   const submit = async (e) => {
     e.preventDefault();
@@ -32,9 +33,6 @@ const Login = () => {
           "Content-Type": "application/json",
         }
       );
-      auth.login(responseData.user.id, responseData.user.name);
-      // alert(responseData.message);
-      history.push("/");
       if (checked) {
         localStorage.setItem("id", responseData.user.id);
         localStorage.setItem("name", responseData.user.name);
@@ -42,45 +40,59 @@ const Login = () => {
         sessionStorage.setItem("id", responseData.user.id);
         sessionStorage.setItem("name", responseData.user.name);
       }
+      auth.login(responseData.user.id, responseData.user.name);
+      history.push("/");
     } catch (err) {}
   };
 
-  let form = (
-    <form id="login-form" onSubmit={submit}>
-      <LockOpenIcon />
-      <TextField
-        required
-        type="text"
-        label="username"
-        value={user.username}
-        onChange={(e) => setuser({ ...user, username: e.target.value })}
-      />
-      <TextField
-        required
-        type="password"
-        label="şifre"
-        value={user.password}
-        onChange={(e) => setuser({ ...user, password: e.target.value })}
-      />
-      <div style={{ display: "flex", marginTop: "1rem" }}>
-        <label htmlFor="check">Beni Hatırla</label>
-        <input
-          id="check"
-          type="checkbox"
-          checked={checked}
-          onChange={() => setchecked(!checked)}
-        />
-      </div>
-
-      <Button type="submit">Giriş Yap</Button>
-      <p id="hesabım-yok">şifremi unuttum</p>
-    </form>
-  );
   return (
     <Fragment>
       <ErrorModal open={open} handleClose={clearError} error={error} />
       {isLoading && <Spinner />}
-      <div id="login-page">{form}</div>
+      <div className="login-page">
+        <div className="form">
+          <form onSubmit={submit}>
+            <div className="textarea">
+              <input
+                type="text"
+                name="username"
+                value={user.username}
+                onChange={(e) => setuser({ ...user, username: e.target.value })}
+                autoComplete="off"
+                required
+              />
+              <label htmlFor="username" className="label-name">
+                <span className="content-name">Kullanıcı Adı</span>
+              </label>
+            </div>
+            <div className="textarea">
+              <input
+                type="password"
+                name="password"
+                value={user.password}
+                onChange={(e) => setuser({ ...user, password: e.target.value })}
+                autoComplete="off"
+                required
+              />
+              <label htmlFor="password" className="label-name">
+                <span className="content-name">Şifre</span>
+              </label>
+            </div>
+            <div className="remember-me">
+              <input
+                type="checkbox"
+                name="checkbox"
+                checked={checked}
+                onChange={() => setchecked(prevState => !prevState)}
+              />
+              <p>Beni hatırla</p>
+            </div>
+            <button type="submit" className="btn-login fullwidth">
+              Giriş Yap
+            </button>
+          </form>
+        </div>
+      </div>
     </Fragment>
   );
 };

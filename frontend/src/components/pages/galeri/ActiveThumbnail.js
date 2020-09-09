@@ -39,6 +39,7 @@ const ActiveThumbnail = (props) => {
       });
     } catch (err) {}
   };
+  
   return (
     <Fragment>
       <Snackbar
@@ -56,9 +57,9 @@ const ActiveThumbnail = (props) => {
         handleOpen={handleOpen}
         deleteHandler={deleteHandler}
       />
-      <div className="active-thumbail">
+      <div className="active-thumbail" style={{backgroundImage:`url(${process.env.REACT_APP_ASSET_URL}/${props.activeThumb})`}}>
         <DeleteIcon color="secondary" onClick={() => handleOpen()} />
-        <img src={`${process.env.REACT_APP_ASSET_URL}/${props.activeThumb}`} alt="name" />
+        {/* <img src={`${process.env.REACT_APP_ASSET_URL}/${props.activeThumb}`} alt="name" /> */}
       </div>
     </Fragment>
   );

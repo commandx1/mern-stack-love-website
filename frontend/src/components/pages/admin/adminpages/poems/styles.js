@@ -4,10 +4,11 @@ import { makeStyles } from "@material-ui/core/styles";
 export const useStyles = makeStyles((theme) => ({
     container: {
       display: "flex",
-      width: "100%",
+      width: "100%"
     },
     collapse: {
       width: "100%",
+      overflow:"auto"
     },
     imageDiv: {
       border: "1px solid",

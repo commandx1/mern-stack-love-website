@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { NavLink } from "react-router-dom";
 import heart from "../../assets/menu-heart.png";
+import Notification from "../notifications/notification";
 
 const Deneme = () => {
   const [a, setA] = useState(false);
@@ -130,6 +131,7 @@ const Deneme = () => {
           <ul className={classes.list}>
             {auth.isLoggedIn ? (
               <>
+                <Notification />
                 <NavLink className={classes.item} to="/">
                   Anasayfa
                 </NavLink>
@@ -154,16 +156,6 @@ const Deneme = () => {
                 <NavLink className={classes.item} to="/Admin">
                   Admin Paneli
                 </NavLink>
-                <button
-                  onClick={
-                    general.isMuted ? general.soundHandler : general.muteHandler
-                  }
-                  className={`${classes.item} background-sound-btn`}
-                >
-                  {general.isMuted
-                    ? "Arkaplan sesini aç"
-                    : "Arkaplan sesini kapa"}
-                </button>
                 <NavLink
                   onClick={() => {
                     sessionStorage.removeItem("id");
@@ -180,7 +172,7 @@ const Deneme = () => {
               </>
             ) : (
               <>
-                <NavLink className={classes.item} to="/Login">
+                <NavLink className={classes.item} to="/">
                   Giriş
                 </NavLink>
               </>

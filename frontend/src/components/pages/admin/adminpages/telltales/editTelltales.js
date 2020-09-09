@@ -44,6 +44,7 @@ const EditTelltales = () => {
     <Fragment>
       {isLoading && <Spinner />}
       <EditableTelltales
+        editorType="telltale"
         removeImageFromElement={removeImageFromElement}
         addImageToMemory={addImageToMemory}
         onClose={onClose}

@@ -252,19 +252,21 @@ const deletePost = async (req, res, next) => {
     next(new HttpError("Bir şeyler ters gitti..."));
   }
 
-  if (post.imageUrl !== "") {
-    const imagePath = post.imageUrl
+  if (post.imageUrl !== "" && post.imageUrl) {
+    const imagePath = post.imageUrl;
 
     const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: imagePath,
-    }
+    };
 
     s3.deleteObject(params, (error, data) => {
       if (error) {
-        res.status(500).send({message:"Bir şeyler ters gitti, yazı silinemiyor."})
+        res
+          .status(500)
+          .send({ message: "Bir şeyler ters gitti, yazı silinemiyor." });
       }
-      
+
       res.status(200).json({
         message: {
           type: "info",
@@ -272,7 +274,6 @@ const deletePost = async (req, res, next) => {
         },
       });
     });
-
   }
 
   res.status(200).json({
@@ -323,9 +324,7 @@ const createPost = async (req, res, next) => {
 
   let createdPost;
 
-  if (!req.file) {
-    res.status(422).send({ message: "Fotoğraf yüklemediniz." });
-  } else {
+  if (req.file) {
     let myFile = req.file.originalname.split(".");
     const fileType = myFile[myFile.length - 1];
 
@@ -373,22 +372,52 @@ const createPost = async (req, res, next) => {
       }
       res.status(201).json({ blog: createdPost });
     });
+  } else {
+    createdPost = new Blog({
+      title,
+      content,
+      kullanici,
+      username,
+      date: myDate,
+      update: myDate,
+      orderingDate: date,
+      category,
+      comments: [],
+    });
+    try {
+      const sess = await mongoose.startSession();
+      sess.startTransaction();
+      await createdPost.save({ session: sess });
+      user.posts.push(createdPost);
+      kategori.posts.push(createdPost);
+      await user.save({ session: sess });
+      await kategori.save({ session: sess });
+      await sess.commitTransaction();
+    } catch (err) {
+      const error = new HttpError(
+        "Blog oluşturulurken hata meydana geldi, lütfen tekrar deneyiniz.",
+        500
+      );
+      return next(error);
+    }
+    res.status(201).json({ blog: createdPost });
   }
 };
-
 
 const addImage = async (req, res, next) => {
   const postId = req.params.pid;
 
   let post;
   try {
-    post = await Blog.findById(postId)
+    post = await Blog.findById(postId);
   } catch (err) {
-    res.status(500).send({message: "Bir şeyler ters gitti, fotoğraf eklenemiyor."})
+    res
+      .status(500)
+      .send({ message: "Bir şeyler ters gitti, fotoğraf eklenemiyor." });
   }
 
   if (!post) {
-    res.status(404).send({message:"Böyle bir yazı bulunamadı."})
+    res.status(404).send({ message: "Böyle bir yazı bulunamadı." });
   }
   let myFile = req.file.originalname.split(".");
   const fileType = myFile[myFile.length - 1];
@@ -407,12 +436,14 @@ const addImage = async (req, res, next) => {
     }
     veri = data.Key;
 
-    post.imageUrl = veri
+    post.imageUrl = veri;
 
     try {
-      await post.save()
+      await post.save();
     } catch (error) {
-      res.status(500).send({message: "Bir şeyler ters gitti, fotoğraf eklenemiyor."})
+      res
+        .status(500)
+        .send({ message: "Bir şeyler ters gitti, fotoğraf eklenemiyor." });
     }
 
     res.status(201).json({
@@ -420,57 +451,59 @@ const addImage = async (req, res, next) => {
         type: "success",
         content: "Fotoğraf eklendi 😊",
       },
-      post: post})
-  })
-
-}
-
-
-
-
+      post: post,
+    });
+  });
+};
 
 const deleteImage = async (req, res, next) => {
   const postId = req.params.pid;
 
   let post;
   try {
-    post = await Blog.findById(postId)
+    post = await Blog.findById(postId);
   } catch (err) {
-    res.status(500).send({message: "Bir şeyler ters gitti, fotoğraf kaldırılamıyor."})
+    res
+      .status(500)
+      .send({ message: "Bir şeyler ters gitti, fotoğraf kaldırılamıyor." });
   }
 
   if (!post) {
-    res.status(404).send({message: "Böyle bir yazı bulunamadı."})
+    res.status(404).send({ message: "Böyle bir yazı bulunamadı." });
   }
 
-    const imagePath = post.imageUrl;
-    
-    const params = {
-      Bucket: process.env.AWS_BUCKET_NAME,
-      Key: imagePath,
-    };
+  const imagePath = post.imageUrl;
 
-    s3.deleteObject(params, async (error, data) => {
-      if (error) {
-        res.status(500).send({message: "Birr şeyler ters gitti, fotoğraf silinemiyor."})
-      }
+  const params = {
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: imagePath,
+  };
 
-      post.imageUrl = ""
+  s3.deleteObject(params, async (error, data) => {
+    if (error) {
+      res
+        .status(500)
+        .send({ message: "Birr şeyler ters gitti, fotoğraf silinemiyor." });
+    }
 
-      try {
-        await post.save()
-      } catch (error) {
-        res.status(500).send({message: "Bir şeyler ters gitti, fotoğraf silinemiyor."})
-      }
-      
-      res.status(200).json({
-        message: {
-          type: "info",
-          content: "Fotoğraf başarıyla silindi.",
-        },
-      });
+    post.imageUrl = "";
+
+    try {
+      await post.save();
+    } catch (error) {
+      res
+        .status(500)
+        .send({ message: "Bir şeyler ters gitti, fotoğraf silinemiyor." });
+    }
+
+    res.status(200).json({
+      message: {
+        type: "info",
+        content: "Fotoğraf başarıyla silindi.",
+      },
     });
-}
+  });
+};
 
 exports.getFirstTenPosts = getFirstTenPosts;
 exports.getPostsByCategory = getPostsByCategory;

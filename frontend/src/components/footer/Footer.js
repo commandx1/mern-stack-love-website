@@ -45,19 +45,9 @@ const Footer = () => {
     // Month Day, Year Hour:Minute:Second, id-of-element-container
     countUpFromTime("Jun 18, 2019 22:00:00", "countup1"); // ****** Change this line!
   };
-  var prevScrollpos = window.pageYOffset;
-  window.onscroll = function () {
-    var currentScrollPos = window.pageYOffset;
-    if (prevScrollpos > currentScrollPos) {
-      setdisplayFooter(true)
-    } else {
-      setdisplayFooter(false)
-    }
-    prevScrollpos = currentScrollPos;
-  };
 
   return (
-    <footer style={{ display: displayFooter ? "block" : "none" }}>
+    <footer>
       <div className="countup" id="countup1">
         <span className="timeel days">{counter.day}</span>
         <span className="timeel timeRefDays"> gün </span>

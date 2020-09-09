@@ -22,7 +22,7 @@ const Post = ({ post }) => {
   const addComment = (newComment) => {
     setcomments([...comments, newComment]);
   };
-  const sendComment = async () => {
+  const sendComment = async (post) => {
     try {
       const res = await sendRequest(
         process.env.REACT_APP_BACKEND_URL + "/blog/comments",
@@ -39,6 +39,19 @@ const Post = ({ post }) => {
       setShowCommentForm(false);
       addComment(res.comment);
     } catch (error) {}
+    try {
+      await sendRequest(
+        process.env.REACT_APP_BACKEND_URL + "/notifications",
+        "POST",
+        JSON.stringify({
+          userId: auth.userId,
+          username: auth.name,
+          redirect: `/Blog/postId/${post._id}/Başlık/${post.title}`,
+          content: `${auth.name} blogdaki bir posta yorum yaptı.`,
+        }),
+        { "Content-Type": "application/json" }
+      );
+    } catch (err) {}
   };
 
   useEffect(() => {
@@ -69,13 +82,13 @@ const Post = ({ post }) => {
         <div className="selected-post-title">{post.title}</div>
 
         <div className="selected-post-content">{Parser(post.content)}</div>
-        <Comments comments={comments} setcomments={setcomments} />
+        <Comments post={post} comments={comments} setcomments={setcomments} />
         <div style={{ margin: "1rem auto" }}>
           {showCommentForm ? (
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                sendComment();
+                sendComment(post);
               }}
               className="comment-form"
             >

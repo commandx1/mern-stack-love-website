@@ -9,6 +9,7 @@
 .admin__content {
     width: 60%;
     height: 80vh;
+    overflow: auto;
 }
 
 @media (max-width: 769px) {

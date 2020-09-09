@@ -11,11 +11,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LinearIndeterminate() {
+export default function LinearIndeterminate({style}) {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={style}>
       <LinearProgress color="secondary" />
     </div>
   );

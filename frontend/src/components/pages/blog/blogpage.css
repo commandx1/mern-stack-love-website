@@ -56,15 +56,16 @@
   height: 100%;
 }
 
+.selected-post-content ul {
+  width: 90%;
+  margin: 0 auto;
+}
+
 .selected-post-content figure {
   margin: 0;
   max-width: 100%;
   text-align: center;
   overflow: auto;
-}
-
-.selected-post-content figure img {
-  max-width: 100%;
 }
 
 .selected-post-comments {
@@ -121,6 +122,7 @@
 }
 
 .delete-comment {
+  margin-top: 1rem;
   color: black;
   cursor: pointer;
 }
@@ -130,7 +132,11 @@
 }
 
 .comment-content {
-  padding-top: 0.5rem;
+  padding-top: 1.5rem;
+}
+
+.comment-content div p:last-child{
+  margin-bottom:.5rem;
 }
 
 .selected-post-content figure table {

@@ -49,8 +49,9 @@ const InsertAbout = () => {
         "En fazla altı adet yazı paylaşılabilir. Maksimum sayıya ulaştınız..."
       );
     else {
+      let responseData
       try {
-        const responseData = await sendRequest(
+        responseData = await sendRequest(
           `${process.env.REACT_APP_BACKEND_URL}/about/${name}`,
           "POST",
           JSON.stringify({
@@ -65,7 +66,20 @@ const InsertAbout = () => {
         if (name === "ceren")
           general.functions.about.addAboutHer(responseData.about);
       } catch (err) {}
-      history.push("/Hakkımızda");
+      try {
+        await sendRequest(
+          process.env.REACT_APP_BACKEND_URL + "/notifications",
+          "POST",
+          JSON.stringify({
+            userId: auth.userId,
+            username: auth.name,
+            redirect: '/Hakkımızda',
+            content: `${auth.name} bir hakkında yazısı paylaştı.`,
+          }),
+          { "Content-Type": "application/json" }
+        );
+        history.push(`/Hakkımızda`);
+      } catch (err) {}
     }
   };
 

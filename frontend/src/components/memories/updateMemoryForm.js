@@ -167,6 +167,7 @@ const UpdateMemory = (props) => {
         />
         <p className={classes.label}>Anı İçeriği</p>
         <Editor
+          type="memory"
           style={{ flex: 15 }}
           data={memory.content}
           onChange={(e, editor) => {

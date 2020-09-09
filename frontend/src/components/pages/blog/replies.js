@@ -54,9 +54,23 @@ const Replies = (props) => {
       );
       setreply("");
       setshowReplyForm(false);
-      console.log(res);
       addReply(res.reply);
     } catch (error) {}
+
+    try {
+      await sendRequest(
+        process.env.REACT_APP_BACKEND_URL + "/notifications",
+        "POST",
+        JSON.stringify({
+          userId: auth.userId,
+          username: auth.name,
+          redirect: `/Blog/postId/${props.post._id}/Başlık/${props.post.title}`,
+          content: `${auth.name} bir yoruma cevap verdi.`,
+        }),
+        { "Content-Type": "application/json" }
+      );
+    } catch (err) {}
+
   };
 
   const deleteHandler = async (rid) => {
@@ -121,7 +135,7 @@ const Replies = (props) => {
                   </IconButton>
                 ) : null}
               </div>
-              <div style={{ borderTop: "1px dashed" }}>
+              <div style={{ borderTop: "1px dashed", paddingTop: ".5rem" }}>
                 {Parser(reply.content)}
               </div>
             </div>

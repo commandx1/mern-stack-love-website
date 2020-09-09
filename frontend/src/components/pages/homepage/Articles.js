@@ -67,7 +67,7 @@ const Articles = () => {
       {!isLoading && poem &&
       <div className={classes.lasts}>
         <h3 style={{ color: "red", textTransform: "uppercase" }}>Son Şiir</h3>
-          <div style={{ paddingBottom: "15px" }}>
+          <div style={{ fontFamily: "Dancing Script" }}>
             {ReactHtmlParser(poem.content)}
           </div>
         {auth.isLoggedIn ? (

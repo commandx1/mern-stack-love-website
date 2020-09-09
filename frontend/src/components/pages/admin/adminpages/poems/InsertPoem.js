@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { generalContext } from "../../../../../WRAPPERS/Context/myContext";
+import { generalContext, authContext } from "../../../../../WRAPPERS/Context/myContext";
 import Editor from "../../../../editor/Editor";
 import Input from "../../../../formelements/Input";
 import Button from "@material-ui/core/Button";
@@ -12,6 +12,7 @@ import ImageUpload from "../../../../formelements/imageUpload/imageUpload";
 const InsertPoem = () => {
   const { isLoading, error, open, sendRequest, clearError } = useHttpClient();
   const general = useContext(generalContext);
+  const auth = useContext(authContext);
   const history = useHistory();
   const [poem, setpoem] = useState({
     title: "",
@@ -68,9 +69,23 @@ const InsertPoem = () => {
           general.functions.poem.addPoem(responseData.poem);
           history.push("/Şiirler");
         } catch (err) {}
+
+        try {
+          await sendRequest(
+            process.env.REACT_APP_BACKEND_URL + "/notifications",
+            "POST",
+            JSON.stringify({
+              userId: auth.userId,
+              username: auth.name,
+              redirect: `/Şiirler`,
+              content: `${auth.name} bir şiir paylaştı.`,
+            }),
+            { "Content-Type": "application/json" }
+          );
+        } catch (err) {}
         general.functions.poem.addPoem(poem);
         setpoem({ title: "", content: "" });
-        // history.push("/Şiirler");
+        history.push("/Şiirler");
       }}
     >
       <Input

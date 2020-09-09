@@ -20,7 +20,8 @@ const Editables = ({
   goTo,
   updateState,
   removeImageFromElement,
-  addImageToMemory
+  addImageToMemory,
+  editorType
 }) => {
   const [editingId, setEditingId] = useState(null);
   const classes = useStyles();
@@ -54,6 +55,7 @@ const Editables = ({
                 path={`${route.path}/${element._id}`}
                 render={() => (
                   <Content
+                    editorType={editorType}
                     addImageToMemory={addImageToMemory}
                     removeImageFromElement={removeImageFromElement}
                     goTo={goTo}

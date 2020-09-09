@@ -17,7 +17,6 @@ const Admin = () => {
   const match = useMediaQuery("(max-width:769px)");
   const route = useRouteMatch();
 
-  
   return (
     <MainNavigation>
       <div id="admin">

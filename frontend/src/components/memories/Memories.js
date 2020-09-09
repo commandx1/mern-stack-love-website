@@ -42,6 +42,7 @@ const Memories = () => {
 
   return (
     <Fragment>
+       <PageTitle>Anılarımızz</PageTitle>
       <Snackbar
         open={showSnackbar}
         onClose={() => setShowSnackbar(false)}
@@ -66,7 +67,6 @@ const Memories = () => {
           />
         </Route>
       ))}
-      <PageTitle>Anılarımızz</PageTitle>
       <Container>
         <div className="new-memory">
           Yeni anı eklemek için{" "}

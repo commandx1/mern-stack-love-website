@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { generalContext } from "../../../../../WRAPPERS/Context/myContext";
+import { generalContext, authContext } from "../../../../../WRAPPERS/Context/myContext";
 import Editor from "../../../../editor/Editor";
 import Input from "../../../../formelements/Input";
 import Button from "@material-ui/core/Button/Button";
@@ -32,6 +32,7 @@ const InsertTelltale = () => {
   const history = useHistory();
   const { isLoading, error, open, sendRequest, clearError } = useHttpClient();
   const general = useContext(generalContext);
+  const auth = useContext(authContext);
   const [masal, setmasal] = useState({
     title: "",
     content: "",
@@ -54,20 +55,34 @@ const InsertTelltale = () => {
       className={classes.form}
       onSubmit={async (e) => {
         e.preventDefault();
+        let responseData
         try {
           const formData = new FormData();
           formData.append("title", masal.title);
           formData.append("content", masal.content);
           formData.append("image", formState.inputs.image.value);
-          const responseData = await sendRequest(
+          responseData = await sendRequest(
             process.env.REACT_APP_BACKEND_URL + "/telltales",
             "POST",
             formData
           );
+        } catch (err) {}
+
+        try {
+          await sendRequest(
+            process.env.REACT_APP_BACKEND_URL + "/notifications",
+            "POST",
+            JSON.stringify({
+              userId: auth.userId,
+              username: auth.name,
+              redirect: `/Masallar/${responseData.telltale._id}/${responseData.telltale.title}`,
+              content: `${auth.name} bir masal paylaştı.`,
+            }),
+            { "Content-Type": "application/json" }
+          );
           setmasal({ title: "", content: "" });
-          console.log(responseData.telltale);
           general.functions.telltale.addTelltale(responseData.telltale);
-          history.push("/Masallar");
+          history.push(`/Masallar/${responseData.telltale._id}/${responseData.telltale.title}`);
         } catch (err) {}
       }}
     >

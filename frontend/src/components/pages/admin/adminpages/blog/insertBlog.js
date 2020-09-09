@@ -83,11 +83,11 @@ const InsertBlog = () => {
   return (
     <Fragment>
       {isLoading && <Spinner />}
-
       <form
         className={classes.form}
         onSubmit={async (e) => {
           e.preventDefault();
+          let responseData
           try {
             const formData = new FormData();
             formData.append("title", newPost.title);
@@ -96,7 +96,7 @@ const InsertBlog = () => {
             formData.append("kullanici", auth.userId);
             formData.append("username", auth.name);
             formData.append("category", select);
-            const responseData = await sendRequest(
+            responseData = await sendRequest(
               process.env.REACT_APP_BACKEND_URL + `/blog`,
               "POST",
               formData
@@ -105,6 +105,21 @@ const InsertBlog = () => {
             history.push(
               `/Blog/postId/${responseData.blog._id}/Başlık/${responseData.blog.title}`
             );
+          } catch (err) {}
+          
+          try {
+            const res = await sendRequest(
+              process.env.REACT_APP_BACKEND_URL + "/notifications",
+              "POST",
+              JSON.stringify({
+                userId: auth.userId,
+                username: auth.name,
+                redirect: `/Blog/postId/${responseData.blog._id}/Başlık/${responseData.blog.title}`,
+                content: `${auth.name} bir yazı paylaştı.`,
+              }),
+              { "Content-Type": "application/json" }
+            );
+            console.log(res);
           } catch (err) {}
         }}
       >

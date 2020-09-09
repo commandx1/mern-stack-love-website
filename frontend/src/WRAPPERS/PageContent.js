@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useState } from "react";
+import React, { useReducer, useEffect, useState, useCallback } from "react";
 import { generalContext } from "./Context/myContext";
 import { datas } from "./Datas/GlobalData";
 import { appReducer } from "./reducers";
@@ -16,17 +16,12 @@ import {
   FETCH_POEMS,
   FETCH_TELLTALES,
   REMOVE_IMAGE_FROM_MEMORY,
-  ADD_IMAGE_TO_MEMORY
+  ADD_IMAGE_TO_MEMORY,
 } from "./types";
-import video from "../assets/My Movie.mp4";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const PageContent = (props) => {
   const match = useMediaQuery("(max-width:500px)");
-  const [isMuted, setisMuted] = useState(true)
-
-  const muteHandler = () => setisMuted(true)
-  const soundHandler = () => setisMuted(false)
 
   const [globalState, dispatch] = useReducer(appReducer, datas);
 
@@ -73,14 +68,14 @@ const PageContent = (props) => {
       fetchAboutMe: (aboutMe) => {
         dispatch({
           type: FETCH_ABOUT_ME,
-          payload: aboutMe
-        })
+          payload: aboutMe,
+        });
       },
       fetchAboutHer: (aboutHer) => {
         dispatch({
           type: FETCH_ABOUT_HER,
-          payload: aboutHer
-        })
+          payload: aboutHer,
+        });
       },
       addAboutMe: (newAbout) => {
         dispatch({
@@ -113,8 +108,8 @@ const PageContent = (props) => {
       fetchTelltales: (telltales) => {
         dispatch({
           type: FETCH_TELLTALES,
-          payload: telltales
-        })
+          payload: telltales,
+        });
       },
       addTelltale: (newTelltale) => {
         dispatch({
@@ -126,20 +121,12 @@ const PageContent = (props) => {
   };
 
   return (
-    <generalContext.Provider value={{ globalState: globalState, functions, isMuted, muteHandler, soundHandler }}>
-      {/* <video
-        style={{
-          zIndex: -1,
-          minWidth: "100vw",
-          position: "fixed",
-          minHeight: "100%",
-          transform: match && "translateX(-30%)",
-        }}
-        src={video}
-        loop
-        autoPlay
-        muted = {isMuted}
-      /> */}
+    <generalContext.Provider
+      value={{
+        globalState: globalState,
+        functions,
+      }}
+    >
       {props.children}
     </generalContext.Provider>
   );

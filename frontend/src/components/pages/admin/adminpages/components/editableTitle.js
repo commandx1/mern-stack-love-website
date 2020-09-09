@@ -51,11 +51,11 @@ const Title = ({
           );
           setShowSnackbar(true);
           const updatedData = fetchedThings.filter((p) => p._id !== id);
-          setfetchedThings(updatedData);
           setmessage({
             type: res.message.type,
             content: res.message.content,
           });
+          setfetchedThings(updatedData);
         } catch (err) {}
       };
 
