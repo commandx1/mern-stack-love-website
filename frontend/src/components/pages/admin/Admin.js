@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MainNavigation from "./adminNavigation/Navigation";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Route, useRouteMatch } from "react-router-dom";
@@ -16,6 +16,13 @@ import EditBlog from "./adminpages/blog/editBlog";
 const Admin = () => {
   const match = useMediaQuery("(max-width:769px)");
   const route = useRouteMatch();
+
+  useEffect(() => {
+    document.querySelector(".push").style.height = 0;
+    return () => {
+      document.querySelector(".push").style.height = "150px";
+    };
+  }, []);
 
   return (
     <MainNavigation>

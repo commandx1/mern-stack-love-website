@@ -72,8 +72,6 @@ export default function SimpleBadge() {
         let x = 0
         res.notifications.map((n) => x = n.read === false ? x + 1 : x)
         setcount(x)
-
-
         setNotifications(res.notifications);
       } catch (error) {}
     };

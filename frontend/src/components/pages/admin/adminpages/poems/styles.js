@@ -8,7 +8,8 @@ export const useStyles = makeStyles((theme) => ({
     },
     collapse: {
       width: "100%",
-      overflow:"auto"
+      overflowY:"auto",
+      overflowX: 'hidden'
     },
     imageDiv: {
       border: "1px solid",

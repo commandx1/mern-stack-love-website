@@ -75,9 +75,12 @@ const Post = ({ post }) => {
           </div>
         </div>
         {post.imageUrl ? (
-          <div className="post-main_image">
-            <img src={process.env.REACT_APP_ASSET_URL + "/" + post.imageUrl} />
-          </div>
+          <div
+            className="post-main_image"
+            style={{
+              backgroundImage: `url(${process.env.REACT_APP_ASSET_URL}/${post.imageUrl})`,
+            }}
+          />
         ) : null}
         <div className="selected-post-title">{post.title}</div>
 

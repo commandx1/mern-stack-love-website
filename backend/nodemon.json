@@ -1,7 +1,7 @@
 {
   "env": {
-    "DB_USER": "abc",
-    "DB_PASSWORD": "abc"
-    "DB_NAME": "xyz"
+    "DB_USER": ***,
+    "DB_PASSWORD": ***,
+    "DB_NAME": ***
   }
 }

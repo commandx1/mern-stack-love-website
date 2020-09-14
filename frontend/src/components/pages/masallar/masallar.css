@@ -37,7 +37,14 @@
   }
 
   .masallar-content *{
-    font-family: 'Indie Flower', cursive !important;
+    font-family: 'Oxygen', sans-serif !important;
+  }
+
+  .masallar-content .image {
+    text-align: center;
+  }
+  .masallar-content .image img{
+    max-width: 100%;
   }
   
   .masal-title {

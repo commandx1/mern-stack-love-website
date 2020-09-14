@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { generalContext } from "../../WRAPPERS/Context/myContext";
+import { generalContext, authContext } from "../../WRAPPERS/Context/myContext";
 import Input from "../formelements/Input";
 import makeStyles from "@material-ui/styles/makeStyles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -17,6 +17,7 @@ const UpdateMemory = (props) => {
   const yatay = useMediaQuery("(max-height: 375px)");
   const history = useHistory();
   const general = useContext(generalContext);
+  const auth = useContext(authContext);
 
   const useStyles = makeStyles({
     form: {
@@ -78,6 +79,19 @@ const UpdateMemory = (props) => {
         content: responseData.message.content,
       });
       props.setopen2(false);
+    } catch (err) {}
+    try {
+      await sendRequest(
+        process.env.REACT_APP_BACKEND_URL + "/notifications",
+        "POST",
+        JSON.stringify({
+          userId: auth.userId,
+          username: auth.name,
+          redirect: '/Anılar',
+          content: `${auth.name} bir anıyı güncelledi.`,
+        }),
+        { "Content-Type": "application/json" }
+      )
       history.goBack();
     } catch (err) {}
   };

@@ -59,13 +59,9 @@ function App() {
     setuserId(uid);
     setName(name);
     setisLoggedIn(true);
-    document.getElementById("root").style.height = "auto";
-    document.querySelector(".push").style.display = "block";
   }, []);
 
   const logout = useCallback(() => {
-    document.getElementById("root").style.height = "100%";
-    document.querySelector(".push").style.display = "none";
     setuserId(null);
     setName(null);
     setisLoggedIn(false);

@@ -73,7 +73,20 @@ const NewMemoryForm = (props) => {
       inputHandler("image", "", false);
       props.setOpenModal(false);
       general.functions.memory.addMemory(responseData.memory);
-      history.push('/Anılar')
+    } catch (err) {}
+    try {
+      await sendRequest(
+        process.env.REACT_APP_BACKEND_URL + "/notifications",
+        "POST",
+        JSON.stringify({
+          userId: auth.userId,
+          username: auth.name,
+          redirect: '/Anılar',
+          content: `${auth.name} bir anı paylaştı.`,
+        }),
+        { "Content-Type": "application/json" }
+      );
+      history.push(`/Anılar`);
     } catch (err) {}
   };
 
