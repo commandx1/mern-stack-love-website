@@ -1,0 +1,122 @@
+.isometric-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  transition: 0.5s;
+  /* transform: skewY(-5deg); */
+}
+
+.isometric-container .isometric-card {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  background-color: #fff;
+  transition: 0.5s;
+  margin: 1rem;
+}
+
+.isometric-container .isometric-card:before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 0;
+  width: 100%;
+  height: 15px;
+  background: #00c0f6;
+  transform-origin: bottom;
+  transform: skewX(45deg);
+  transition: 0.5s;
+}
+.isometric-container .isometric-card:after {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  width: 15px;
+  height: 50%;
+  background: #00c0f6;
+  transform-origin: left;
+  transform: skewY(45deg);
+  transition: 0.5s;
+  border-bottom: 200px solid #d9d9d9;
+}
+
+.isometric-container .isometric-card:hover {
+  transform: translateY(-40px);
+}
+
+.isometric-container .isometric-card .isometric-imgBx {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  background: #00c7ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.isometric-imgBx img {
+  max-width: 100px;
+}
+
+.isometric-imgBx h3 {
+  position: relative;
+  color: white;
+  margin-top: 10px;
+}
+
+.isometric-card .isometric-content {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  padding: 20px;
+  color: #777;
+  text-align: center;
+  background: #fff;
+  word-wrap: break-word;
+}
+
+.isometric-content ul,
+.isometric-content ol {
+  list-style: none;
+}
+
+.isometric-card .isometric-content:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(transparent, transparent, rgba(0, 0, 0, 0.1));
+  transform-origin: bottom;
+  transform: skewX(45deg);
+  transition: 0.5s;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.isometric-card:hover .isometric-content:before {
+  transform: translateY(40px) skewX(45deg);
+  filter: blur(5px);
+  opacity: 0.5;
+}
+
+/* .isometric-card:nth-child(1) {
+    z-index: 3;
+  }
+  .isometric-card:nth-child(2) {
+    z-index: 2;
+  }
+  .isometric-card:nth-child(3) {
+    z-index: 1;
+  } */
+
+@media screen and (max-width: 675px) {
+  .isometric-container .isometric-card {
+    margin-top: 2rem;
+  }
+}

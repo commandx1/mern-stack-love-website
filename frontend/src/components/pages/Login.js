@@ -2,10 +2,7 @@ import React, { useContext, useState, Fragment } from "react";
 import { authContext,generalContext } from "../../WRAPPERS/Context/myContext";
 import { useHistory } from "react-router-dom";
 import useHttpClient from "../../hooks/useHttpClient";
-import TextField from "@material-ui/core/TextField";
-import Button from "../formelements/Button";
 import "./login.css";
-import LockOpenIcon from "@material-ui/icons/LockOpen";
 import ErrorModal from "../../components/error/ErrorModal";
 import Spinner from "../../components/spinner/Spinner";
 
@@ -36,12 +33,14 @@ const Login = () => {
       if (checked) {
         localStorage.setItem("id", responseData.user.id);
         localStorage.setItem("name", responseData.user.name);
+        sessionStorage.setItem("uid", responseData.user.id);
+        sessionStorage.setItem("uname", responseData.user.name);
       } else {
-        sessionStorage.setItem("id", responseData.user.id);
-        sessionStorage.setItem("name", responseData.user.name);
+        sessionStorage.setItem("uid", responseData.user.id);
+        sessionStorage.setItem("uname", responseData.user.name);
       }
       auth.login(responseData.user.id, responseData.user.name);
-      history.push("/");
+      history.push("/Hosgeldiniz");
     } catch (err) {}
   };
 

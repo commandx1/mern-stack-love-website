@@ -1,28 +1,28 @@
 import React, { Fragment } from "react";
 import { makeStyles } from "@material-ui/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery"
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 const StartDate = (props) => {
-  const match = useMediaQuery("(max-width:769px)");
+  const matches = useMediaQuery("(max-width:769px)");
 
   const useStyles = makeStyles({
     date: {
       textAlign: "center",
-      padding: ".7rem",
-      border: "2px solid #bb0d0d",
-      color:"black",
-      width: "100%",
-      fontSize: "1.5rem",
+      padding: "1rem",
+      border: "2px solid #03e9f4",
+      color:"#c8c8c8",
+      fontSize: matches ? "1rem" : "1.5rem",
       fontFamily: "Arial",
       fontWeight: 600,
-      boxShadow: "-1px 2px 4px rgba(255, 120, 120, .6)"
+      boxShadow: "0px 0px 10px #03E9F4"
     },
     root: {
-      margin: "10% auto",
-      // width: match ? "70%" :"20em",
-      maxWidth: "300px",
+      height: '50vh',
+      width: '100%',
       display: "flex",
       flexDirection: "column",
+      alignItems: 'center',
+      justifyContent: 'center'
     },
     flex1: {
       display: "flex",
@@ -30,7 +30,7 @@ const StartDate = (props) => {
       height:"60px"
     },
     flex11: {
-        borderRight: "2px solid #bb0d0d",
+        borderRight: "2px solid #03e9f4",
         flex:1
     },
      flex12: {

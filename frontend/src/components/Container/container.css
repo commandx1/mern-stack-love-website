@@ -6,7 +6,7 @@
 #page-title{
     background: linear-gradient(to bottom,  rgba(223, 94, 94, 0.3), transparent);
     width: 100%;
-    color: red;
+    color: #03e9f4;
     height: 100vh;
     align-items: center;
     justify-content: center;
@@ -15,4 +15,10 @@
     font-weight: 700;
     font-family: 'Dancing Script';
     text-transform: uppercase;
+}
+
+@media screen and (max-width: 769px) {
+    #page-title {
+        font-size: 2rem;
+    }
 }

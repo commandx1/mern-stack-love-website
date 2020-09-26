@@ -74,6 +74,22 @@ const getFirstTenPosts = async (req, res, next) => {
   });
 };
 
+const getFirstThreePosts = async (req, res, next) => {
+  let posts;
+  try {
+    posts = await Blog.find().sort({ orderingDate: -1 }).limit(3);
+  } catch (err) {
+    const error = new HttpError(
+      "Bir hatayla karşılaşıldı. Yazılar yüklenemiyoggr !",
+      500
+    );
+    return next(error);
+  }
+  res.json({
+    posts: posts.map((post) => post.toObject({ getters: true })),
+  });
+};
+
 const updatePost = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -505,6 +521,7 @@ const deleteImage = async (req, res, next) => {
   });
 };
 
+exports.getFirstThreePosts = getFirstThreePosts;
 exports.getFirstTenPosts = getFirstTenPosts;
 exports.getPostsByCategory = getPostsByCategory;
 exports.getPostsByUserAndCategory = getPostsByUserAndCategory;

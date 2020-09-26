@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { authContext, generalContext } from "../../WRAPPERS/Context/myContext";
+import { authContext } from "../../WRAPPERS/Context/myContext";
 import { makeStyles } from "@material-ui/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { NavLink } from "react-router-dom";
@@ -9,7 +9,6 @@ import Notification from "../notifications/notification";
 const Deneme = () => {
   const [a, setA] = useState(false);
   const auth = useContext(authContext);
-  const general = useContext(generalContext);
   const matches = useMediaQuery("(min-width:769px)");
   const yatay = useMediaQuery("(min-width:600px) and (max-width: 700px)");
 
@@ -99,11 +98,10 @@ const Deneme = () => {
       textAlign: "center",
       display: "flex",
       flexDirection: "column",
-      marginRight: "40px",
     },
     item: {
       listStyleType: "none",
-      fontSize: matches ? "1.5em" : "1.1em",
+      fontSize: "1.1em",
       color: "white",
       textTransform: "uppercase",
       marginTop: ".1rem",
@@ -117,7 +115,7 @@ const Deneme = () => {
 
   const classes = useStyles();
   return (
-    <div>
+    <div className="my-menu-button">
       <button onClick={() => setA(!a)} className={classes.button}>
         <div className={`${classes.line} ${a && classes.before}`} />
         <div className={`${classes.line} ${a && classes.trans}`} />
@@ -132,6 +130,9 @@ const Deneme = () => {
             {auth.isLoggedIn ? (
               <>
                 <Notification />
+                <NavLink className={classes.item} to="/Mesajlar">
+                  Mesajlar
+                </NavLink>
                 <NavLink className={classes.item} to="/">
                   Anasayfa
                 </NavLink>

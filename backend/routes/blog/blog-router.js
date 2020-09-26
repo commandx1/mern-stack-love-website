@@ -14,6 +14,8 @@ router.get(
 
 router.get("/", blogController.getFirstTenPosts);
 
+router.get("/first-three", blogController.getFirstThreePosts);
+
 router.post(
   "/",
   fileUpload.single("image"),

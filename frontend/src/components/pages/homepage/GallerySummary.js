@@ -5,6 +5,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import useHttpClient from "../../../hooks/useHttpClient";
 import { NavLink } from "react-router-dom";
 import Backdrop from "../../backdrop/backdrop";
+import "./gallerySummary.css";
 
 const GallerySummary = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -45,15 +46,17 @@ const GallerySummary = () => {
     image: {
       margin: match ? "3%" : "1%",
       width: imageWidth,
-      border: "1px solid wheat",
       borderRadius: "3rem",
       boxShadow: "2px 3px 1px rgba(255, 255, 255, .5)",
       marginBottom: match && "2rem",
       transition: "400ms",
       cursor: "pointer",
+      opacity: match ? 1 : ".7",
       "&:hover": {
-        opacity: "0.7",
+        opacity: "1",
         transform: "scale(1.1)",
+        boxShadow:
+          "0 0 15px #03e9f4, 0 0 35px #03e9f4, 0 0 70px #03e9f4, 0 0 250px #03e9f4",
       },
     },
     link: {
@@ -109,7 +112,9 @@ const GallerySummary = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const res = await sendRequest(process.env.REACT_APP_BACKEND_URL + "/upload");
+        const res = await sendRequest(
+          process.env.REACT_APP_BACKEND_URL + "/upload"
+        );
         setImages(res.images);
       } catch (error) {}
     };
@@ -144,7 +149,9 @@ const GallerySummary = () => {
                 <img
                   onClick={() => {
                     setopenImage(true);
-                    setimgSrc(`${process.env.REACT_APP_ASSET_URL}/${image.imageUrl}`);
+                    setimgSrc(
+                      `${process.env.REACT_APP_ASSET_URL}/${image.imageUrl}`
+                    );
                   }}
                   className={classes.image}
                   src={`${process.env.REACT_APP_ASSET_URL}/${image.imageUrl}`}
@@ -153,15 +160,17 @@ const GallerySummary = () => {
               </div>
             ))}
           </div>
-          {auth.isLoggedIn ? (
-            <NavLink to="/Galeri" className={classes.link}>
-              Galeriye gitmek için tıklayın
-            </NavLink>
-          ) : (
-            <NavLink to="/Login" className={classes.link}>
-              Galeriyi görmek için giriş yapmalısınız
-            </NavLink>
-          )}
+          <NavLink
+            to="/Galeri"
+            className="neon-button"
+            style={{ margin: "5rem auto" }}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            {match2 ? "Galeri" : "Galeriye gitmek için tıklayın"}
+          </NavLink>
         </div>
       )}
     </div>

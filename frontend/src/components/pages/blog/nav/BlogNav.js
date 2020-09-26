@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     flexShrink: 0,
     textDecoration:"none",
-    color:"#0E6EE1",
+    color:"#f1f1f1",
     "& a": {
       textDecoration:"none",
     },
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: "none"
     },
     "&:hover":{
-      color:"#4B8EDF",
+      color:"#060606",
     }
   },
 }));

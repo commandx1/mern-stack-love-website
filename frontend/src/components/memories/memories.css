@@ -12,6 +12,7 @@
     background-repeat: no-repeat;
     font-family: "Itim", cursive;
     position: relative;
+    color: black;
   }
   #delete-memory {
     width: 5%;
@@ -52,6 +53,7 @@
     text-align: right;
     font-size: 1.2rem;
     margin-top: 2rem;
+    color: white;
   }
   
   .new-memory span {

@@ -21,8 +21,8 @@ const getImagesPerPage = async (req, res, next) => {
     totalPosts = await ImageFile.find().count();
     images = await ImageFile.find()
       .sort({ _id: -1 })
-      .skip(pageNumber > 0 ? (pageNumber - 1) * 16 : 0)
-      .limit(16);
+      .skip(pageNumber > 0 ? (pageNumber - 1) * 8 : 0)
+      .limit(8);
   } catch (err) {
     const error = new HttpError(
       "Bir hatayla karşılaşıldı. Resimler yüklenemiyor !",

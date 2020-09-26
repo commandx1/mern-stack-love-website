@@ -13,6 +13,9 @@
   background: url("https://marefidelis.com/wp-content/uploads/paper-background.jpg");
 }
 
+.ck-editor__editable_inline li {
+  margin-left: 1rem;
+}
 
 @media screen and (min-device-width: 500px) and (max-device-width: 1030px) {
   .ck-toolbar__items {

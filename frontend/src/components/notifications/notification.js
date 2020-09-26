@@ -43,6 +43,7 @@ export default function SimpleBadge() {
       boxShadow: theme.shadows[5],
       padding: theme.spacing(1),
       position: "relative",
+      color: 'black'
     },
     delete: {
       cursor: "pointer",
@@ -72,7 +73,7 @@ export default function SimpleBadge() {
         let x = 0
         res.notifications.map((n) => x = n.read === false ? x + 1 : x)
         setcount(x)
-        setNotifications(res.notifications);
+        setNotifications(res.notifications.reverse());
       } catch (error) {}
     };
 

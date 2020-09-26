@@ -8,9 +8,7 @@ const getNotifications = async (req, res, next) => {
   let userId = req.params.uid;
   let notifications;
   try {
-    notifications = await MyNotification.find({ 'userId': { $ne: userId } }).sort({
-      orderingDate: -1,
-    });
+    notifications = await MyNotification.find({ 'userId': { $ne: userId } })
   } catch (err) {
     res.status(500).send({ message: "Bildirimler Yüklenemiyor 😢" });
   }

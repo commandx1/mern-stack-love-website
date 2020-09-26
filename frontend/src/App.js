@@ -2,8 +2,7 @@ import React, {
   useEffect,
   useCallback,
   useState,
-  Suspense,
-  useContext,
+  Suspense
 } from "react";
 import { authContext } from "./WRAPPERS/Context/myContext";
 import "./App.css";
@@ -11,9 +10,11 @@ import PageContent from "./WRAPPERS/PageContent";
 import Logo from "./components/logo/Logo";
 import Footer from "./components/footer/Footer";
 import MenuButton from "./components/navigation/MenuButton";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 import Scrolltop from "./components/ScrollTop/Scrolltop";
 import Spinner from "./components/spinner/Spinner";
+import Mesajlasma from "./components/mesajlasma/mesajlasma";
+import DirectionPage from "./components/intro/directionPage";
 
 const Login = React.lazy(() => import("./components/pages/Login"));
 const Homepage = React.lazy(() =>
@@ -38,6 +39,7 @@ function App() {
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const [userId, setuserId] = useState();
   const [name, setName] = useState();
+  const history = useHistory()
 
   let deger;
   let autoLogin;
@@ -48,9 +50,9 @@ function App() {
       autoLogin = localStorage.getItem("id");
       username = localStorage.getItem("name");
       login(autoLogin, username);
-    } else if (sessionStorage.getItem("id")) {
-      deger = sessionStorage.getItem("id");
-      username = sessionStorage.getItem("name");
+    } else if (sessionStorage.getItem("uid")) {
+      deger = sessionStorage.getItem("uid");
+      username = sessionStorage.getItem("uname");
       login(deger, username);
     }
   });
@@ -59,6 +61,8 @@ function App() {
     setuserId(uid);
     setName(name);
     setisLoggedIn(true);
+    !sessionStorage.getItem('uname') && history.push('/Hosgeldiniz')
+    sessionStorage.setItem('uname', username)
   }, []);
 
   const logout = useCallback(() => {
@@ -72,6 +76,9 @@ function App() {
 
   routes = isLoggedIn ? (
     <Switch>
+      <Route path="/Hosgeldiniz" exact>
+        <DirectionPage />
+      </Route>
       <Route path="/" exact>
         <Logo />
         <Homepage />
@@ -90,6 +97,10 @@ function App() {
       <Route exact path="/Şiirler">
         <Logo />
         <Siirler />
+      </Route>
+      <Route exact path="/Mesajlar">
+        <Logo />
+        <Mesajlasma />
       </Route>
       <Route exact path="/Galeri">
         <Logo />
@@ -127,7 +138,6 @@ function App() {
         <authContext.Provider
           value={{ isLoggedIn, userId, name, login, logout }}
         >
-          <BrowserRouter>
             <MenuButton />
             <Suspense
               fallback={
@@ -138,7 +148,6 @@ function App() {
             >
               {routes}
             </Suspense>
-          </BrowserRouter>
           <Scrolltop />
         </authContext.Provider>
       </PageContent>
