@@ -49,6 +49,7 @@
 }
 
 #heart {
+  order:2;
   position: relative;
   width: 100px;
   height: 90px;

@@ -63,6 +63,8 @@ const InsertBlog = () => {
     formControl: {
       margin: "1rem",
       minWidth: 120,
+      '& *': {color: '#c0c0c0'},
+      '& option': {color: '#3011ff'}
     },
   });
 

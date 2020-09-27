@@ -2,26 +2,42 @@ import React from "react";
 import "./mainImages.css";
 import serhat from "../../../../assets/serhat.png";
 import ceren from "../../../../assets/ceren.jpg";
+import ImageCard from "./imageCard";
+
+const myArr = [
+  {
+    id: 1,
+    order: 1,
+    name: "Serhat",
+    imageUrl: serhat,
+    animation: "fade-left",
+    content:
+      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus, reprehenderit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, eum!",
+  },
+  {
+    id: 2,
+    order: 3,
+    name: "Ceren",
+    imageUrl: ceren,
+    animation: "fade-right",
+    content: "29 Kasım'da dünyaya güneş gibi doğan, sarı bir yavru ceylan...",
+  },
+];
+
 
 const MainImages = () => {
   return (
     <div className="images-container">
-      <div className="card" data-aos="fade-left" data-aos-duration="500">
-        <h3>Serhat</h3>
-        <img src={serhat} alt="serhat" />
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus,
-          reprehenderit. Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Animi, eum!
-        </p>
-      </div>
-      <div id="heart"></div>
-
-      <div className="card" data-aos="fade-right" data-aos-duration="500">
-        <h3>Ceren</h3>
-        <img src={ceren} alt="ceren" />
-        <p>29 Kasım'da dünyaya güneş gibi doğan, sarı bir yavru ceylan...</p>
-      </div>
+      <div id="heart" />
+      {myArr.map((user) => (
+        <ImageCard
+          style={{ order: user.order }}
+          name={user.name}
+          imageUrl={user.imageUrl}
+          animation={user.animation}
+          content={user.content}
+        />
+      ))}
     </div>
   );
 };

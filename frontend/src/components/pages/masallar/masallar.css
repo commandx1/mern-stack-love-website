@@ -1,81 +1,78 @@
-.masallar-main {
-    display: flex;
-    justify-content: space-between;
-    background: linear-gradient(
-      to bottom right,
-      rgb(128, 226, 128),
-      rgb(221, 156, 156)
-    );
-    width: 100%;
-    flex-wrap: wrap;
-  }
-  
-  .masallar-titles {
-    font-size: 1.5rem;
-    margin: 0.7rem;
-  }
-  
-  .masallar-title:hover {
-    color: rgb(221, 29, 29);
-  }
-  
-  .masallar-hr hr {
-    border: 5px solid red;
-    border-radius: 2rem;
-    width: 100%;
-  }
-  .masallar-hr {
-    height: 10vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .masallar-content{
-    font-size: 1.4rem;
-    background-color: rgba(255, 180, 210, 0.6);
-    padding: 0 0.5rem;
-  }
+.masallar-titles {
+  background: linear-gradient(
+    to bottom right,
+    rgb(128, 226, 128),
+    rgb(221, 156, 156)
+  );
+  font-size: 1.5rem;
+  margin: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
+  max-height: 50vh;
+}
 
-  .masallar-content *{
-    font-family: 'Oxygen', sans-serif !important;
-  }
+.masallar-title:hover {
+  color: rgb(221, 29, 29);
+}
 
-  .masallar-content .image {
-    text-align: center;
-  }
-  .masallar-content .image img{
-    max-width: 100%;
-  }
-  
-  .masal-title {
-    text-align: center;
-    font-size: 2rem;
-    text-decoration: underline;
-    text-transform: uppercase;
-    letter-spacing: 1.5;
-    margin: 0;
-    margin-bottom: 1rem;
-    color: #03e9f4;
-  }
-  
-  .masal-sonu-image {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1rem;
-  }
-  
+.masallar-hr hr {
+  border: 5px solid red;
+  border-radius: 2rem;
+  width: 100%;
+}
+.masallar-hr {
+  height: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.masallar-content {
+  font-size: 1.4rem;
+  background-color: rgba(255, 180, 210, 0.6);
+  padding: 0 0.5rem;
+}
+
+.masallar-content * {
+  font-family: "Oxygen", sans-serif !important;
+}
+
+.masallar-content .image {
+  text-align: center;
+}
+.masallar-content .image img {
+  max-width: 100%;
+}
+
+.masal-title {
+  text-align: center;
+  font-size: 2rem;
+  text-decoration: underline;
+  text-transform: uppercase;
+  letter-spacing: 1.5;
+  margin: 0;
+  margin-bottom: 1rem;
+  color: #03e9f4;
+}
+
+.masal-sonu-image {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.masal-title + img {
+  width: 50%;
+  float: left;
+  margin: 0 1rem 1rem 0;
+}
+
+@media (max-width: 500px) {
   .masal-title + img {
-    width: 50%;
-    float: left;
-    margin: 0 1rem 1rem 0;
+    width: 100%;
   }
-  
-  @media (max-width: 500px) {
-    .masal-title + img {
-      width: 100%;
-    }
-    .masal-sonu-image img {
-      width: 100%;
-    }
+  .masal-sonu-image img {
+    width: 100%;
   }
-  
+}

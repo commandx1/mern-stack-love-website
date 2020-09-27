@@ -27,6 +27,10 @@ export default function DeleteModal({
       border: "2px solid #000",
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
+      color: '#050505',
+      '& p': {
+        margin: '1rem auto'
+      }
     },
   }));
 
@@ -47,9 +51,9 @@ export default function DeleteModal({
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">
-              {element} silmek istediğinize emin misiniz? 🤔
-            </h2>
+            <p id="transition-modal-title">
+              <span style={{fontWeight: 'bold'}}>{element}</span> silmek istediğinize emin misiniz? 🤔
+            </p>
             <Button
               variant="contained"
               color="secondary"

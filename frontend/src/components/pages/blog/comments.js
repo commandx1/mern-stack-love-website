@@ -60,11 +60,6 @@ const Comments = ({ comments, setcomments, post }) => {
             ) : null}
             <div
               key={c._id}
-              style={
-                {
-                  // textAlign: c.username === auth.name ? "left" : "right",
-                }
-              }
               className={
                 c.username === auth.name
                   ? "post-comment myBg"

@@ -159,8 +159,8 @@ const Deneme = () => {
                 </NavLink>
                 <NavLink
                   onClick={() => {
-                    sessionStorage.removeItem("id");
-                    sessionStorage.removeItem("name");
+                    sessionStorage.removeItem("uid");
+                    sessionStorage.removeItem("uname");
                     localStorage.removeItem("id");
                     localStorage.removeItem("name");
                     auth.logout();

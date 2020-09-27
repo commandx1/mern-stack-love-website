@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useEffect } from "react";
 import Pagination from "../../sayfalama/Pagination";
 import useHttpClient from "../../../hooks/useHttpClient";
-import Container from "../../Container/container";
 import PageTitle from "../../Container/PageTitle";
 import "./deneme.css";
+import Gallery from "./Gallery";
 
 const MainGallery = () => {
   const [currentPage, setcurrentPage] = useState(1);
@@ -15,6 +15,7 @@ const MainGallery = () => {
   };
 
   const { isLoading, error, sendRequest } = useHttpClient();
+
   useEffect(() => {
     const fetchPoems = async () => {
       try {
@@ -36,31 +37,15 @@ const MainGallery = () => {
   return (
     <Fragment>
       <PageTitle>Galerimizz</PageTitle>
-        <div id="gallery-wrapper">
-          <div className="boxbox">
-            {!isLoading &&
-              myGallery.length > 0 &&
-              myGallery.map((item, index) => (
-                <span
-                  style={{
-                    transform: `rotateY(calc(${
-                      index + 1
-                    } * 45deg)) translateZ(400px)`
-                  }}
-                >
-                  <img
-                    src={process.env.REACT_APP_ASSET_URL + "/" + item.imageUrl}
-                  />
-                </span>
-              ))}
-          </div>
-          <Pagination
-            style={{position: 'absolute', top: "80%"}}
-            postsPerPage={8}
-            totalPosts={totalPosts}
-            paginate={paginate}
-          />
-        </div>
+      <div id="gallery-wrapper">
+        <Gallery myGallery={myGallery} isLoading={isLoading} />
+        <Pagination
+          style={{ position: "absolute", top: "80%" }}
+          postsPerPage={8}
+          totalPosts={totalPosts}
+          paginate={paginate}
+        />
+      </div>
     </Fragment>
   );
 };

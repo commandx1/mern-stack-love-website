@@ -3,7 +3,7 @@ import Slider from "./Slider/Slider";
 import MainImages from "./images/MainImages";
 import StartingDate from "./StartingDate";
 import GallerySummary from "./GallerySummary";
-import Articles from "./Articles";
+import Articles from "./articles/Articles";
 import TelltalesInfo from "./masal/telltasleInfo";
 import Posts from "./posts/posts";
 import IsometricCard from "../../isometricCard/isometricCard";
