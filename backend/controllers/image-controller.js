@@ -7,11 +7,9 @@ const { v4: uuidv4 } = require("uuid");
 
 const HttpError = require("../models/http-error");
 const ImageFile = require("../models/image");
+const variables = require("./variables");
 
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ID,
-  secretAccessKey: process.env.AWS_SECRET,
-});
+const s3 = variables.s3;
 
 const getImagesPerPage = async (req, res, next) => {
   const pageNumber = req.params.pnumber;
@@ -78,11 +76,8 @@ const createImage = (req, res, next) => {
       title: "x",
       content: "y",
       imageUrl: veri,
-      active: false,
-      activeStyle: {
-        width: "100%",
-        height: "100%",
-      },
+      date: new Date(),
+      comments: []
     });
 
     try {
@@ -146,7 +141,7 @@ const deleteImage = async (req, res, next) => {
       );
       return next(err);
     }
-    
+
     res.status(200).json({
       message: {
         type: "info",

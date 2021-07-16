@@ -8,10 +8,9 @@ const { v4: uuidv4 } = require("uuid");
 const HttpError = require("../models/http-error");
 const Poem = require("../models/poems");
 
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ID,
-  secretAccessKey: process.env.AWS_SECRET,
-});
+const variables = require("./variables");
+
+const s3 = variables.s3;
 
 const getPoems = async (req, res, next) => {
   let poems;
@@ -68,17 +67,6 @@ const updatePoem = async (req, res, next) => {
     return next(new HttpError("Başlık veya şiir boş bırakılamaz😠", 422));
   }
 
-  const date = new Date();
-  let day = date.getDate();
-  let month = date.getMonth() + 1;
-  day = day < 10 ? "0" + day : day;
-  month = month < 10 ? "0" + month : month;
-  const year = date.getFullYear();
-  const hour = date.getHours();
-  let min = date.getMinutes();
-  min = min < 10 ? "0" + min : min;
-  const myDate = day + "." + month + "." + year + "  " + hour + ":" + min;
-
   const { title, content } = req.body;
   const poemId = req.params.pid;
 
@@ -109,7 +97,7 @@ const updatePoem = async (req, res, next) => {
     } else {
       poem.title = title;
       poem.content = content;
-      poem.update = myDate;
+      poem.update = variables.createDate();
       poem.imageUrl = req.file.path;
       try {
         await poem.save();
@@ -141,7 +129,7 @@ const updatePoem = async (req, res, next) => {
     } else {
       poem.title = title;
       poem.content = content;
-      poem.update = myDate;
+      poem.update = variables.createDate();
       try {
         await poem.save();
       } catch (err) {
@@ -206,7 +194,7 @@ const deletePoem = async (req, res, next) => {
         );
         return next(err);
       }
-      
+
       res.status(200).json({
         message: {
           type: "info",
@@ -235,17 +223,6 @@ const createPoem = async (req, res, next) => {
     );
   }
 
-  const date = new Date();
-  let day = date.getDate();
-  let month = date.getMonth() + 1;
-  day = day < 10 ? "0" + day : day;
-  month = month < 10 ? "0" + month : month;
-  const year = date.getFullYear();
-  const hour = date.getHours();
-  let min = date.getMinutes();
-  min = min < 10 ? "0" + min : min;
-  const myDate = day + "." + month + "." + year + "  " + hour + ":" + min;
-
   const { title, content } = req.body;
 
   let createdPoem;
@@ -271,8 +248,8 @@ const createPoem = async (req, res, next) => {
       createdPoem = new Poem({
         title,
         content,
-        date: myDate,
-        update: myDate,
+        date: variables.createDate(),
+        update: variables.createDate(),
         imageUrl: veri,
         isActive: false,
         isDelete: false,
@@ -294,8 +271,8 @@ const createPoem = async (req, res, next) => {
     createdPoem = new Poem({
       title,
       content,
-      date: myDate,
-      update: myDate,
+      date: variables.createDate(),
+      update: variables.createDate(),
       isActive: false,
       isDelete: false,
     });
@@ -332,49 +309,49 @@ const deleteImage = async (req, res, next) => {
     return next(error);
   }
 
-    const imagePath = poem.imageUrl;
-    
-    const params = {
-      Bucket: process.env.AWS_BUCKET_NAME,
-      Key: imagePath,
-    };
+  const imagePath = poem.imageUrl;
 
-    s3.deleteObject(params, async (error, data) => {
-      if (error) {
-        const err = new HttpError(
-          "Bir şeyler ters gitti, fotoğraf silinemiyor.",
-          500
-        );
-        return next(err);
-      }
+  const params = {
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: imagePath,
+  };
 
-      poem.imageUrl = ""
+  s3.deleteObject(params, async (error, data) => {
+    if (error) {
+      const err = new HttpError(
+        "Bir şeyler ters gitti, fotoğraf silinemiyor.",
+        500
+      );
+      return next(err);
+    }
 
-      try {
-        await poem.save()
-      } catch (error) {
-        const err = new HttpError(
-          "Bir şeyler ters gitti, fotoğraf silinemiyor.",
-          500
-        );
-        return next(err);
-      }
-      
-      res.status(200).json({
-        message: {
-          type: "info",
-          content: "Fotoğraf başarıyla silindi.",
-        },
-      });
+    poem.imageUrl = "";
+
+    try {
+      await poem.save();
+    } catch (error) {
+      const err = new HttpError(
+        "Bir şeyler ters gitti, fotoğraf silinemiyor.",
+        500
+      );
+      return next(err);
+    }
+
+    res.status(200).json({
+      message: {
+        type: "info",
+        content: "Fotoğraf başarıyla silindi.",
+      },
     });
-}
+  });
+};
 
 const addImage = async (req, res, next) => {
   const poemID = req.params.pid;
 
   let poem;
   try {
-    poem = await Poem.findById(poemID)
+    poem = await Poem.findById(poemID);
   } catch (err) {
     const error = new HttpError(
       "Bir şeyler ters gitti, fotoğraf eklenemiyor.",
@@ -404,10 +381,10 @@ const addImage = async (req, res, next) => {
     }
     veri = data.Key;
 
-    poem.imageUrl = veri
+    poem.imageUrl = veri;
 
     try {
-      await poem.save()
+      await poem.save();
     } catch (error) {
       const err = new HttpError(
         "Bir şeyler ters gitti, fotoğraf eklenemiyor.",
@@ -421,10 +398,10 @@ const addImage = async (req, res, next) => {
         type: "success",
         content: "Fotoğraf eklendi 😊",
       },
-      poem: poem})
-  })
-
-}
+      poem: poem,
+    });
+  });
+};
 
 exports.getPoems = getPoems;
 exports.getFirstPoem = getFirstPoem;

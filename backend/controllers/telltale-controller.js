@@ -8,10 +8,9 @@ const { v4: uuidv4 } = require("uuid");
 const HttpError = require("../models/http-error");
 const Telltale = require("../models/telltales");
 
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ID,
-  secretAccessKey: process.env.AWS_SECRET,
-});
+const variables = require("./variables");
+
+const s3 = variables.s3;
 
 const getTelltales = async (req, res, next) => {
   let telltales;
