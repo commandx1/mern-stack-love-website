@@ -5,8 +5,8 @@
     frontend/.pnp
     frontend/.pnp.js
 
-  .env
-  src/assets/*
+  frontend/.env
+  frontend/src/assets/*
 
   # testing
     frontend/coverage
